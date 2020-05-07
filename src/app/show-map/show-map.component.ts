@@ -1,0 +1,42 @@
+import { Component, OnInit, NgModule } from '@angular/core';
+import { DateTimePickerModule } from '@progress/kendo-angular-dateinputs';
+import { AppComponent } from '../app.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+// @NgModule({
+//   bootstrap: [AppComponent],
+//   imports: [BrowserModule, BrowserAnimationsModule, DateTimePickerModule]
+// })
+@Component({
+  selector: 'app-show-map',
+  templateUrl: './show-map.component.html',
+  styleUrls: ['./show-map.component.css']
+})
+export class ShowMapComponent implements OnInit {
+  // public value: Date = new Date(2020, 5, 1, 22);
+  public format: string = 'dd/MM/yyyy HH:mm';
+
+  public fromDate: Date = new Date(2020, 5, 1, 22);
+  public toDate: Date = new Date(2020, 6, 1, 22);
+
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+  getData(){
+    console.log("GET DATA");
+
+    console.log(this.fromDate);
+    console.log(this.toDate);
+  }
+
+  plotTracks(){
+    console.log("plotTracks");
+  }
+
+
+  
+}

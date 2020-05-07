@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="#">Add Person</a>
+        </li>
+    </ul>
+</nav>
+<div class="container-fluid">
+    <br>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label>From: </label>
+                <kendo-datetimepicker [format]="format" [(value)]="fromDate">
+                </kendo-datetimepicker>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label>To: </label>
+                <kendo-datetimepicker [format]="format" [(value)]="toDate">
+                </kendo-datetimepicker>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" (click)="getData()">Search</button>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" (click)="plotTracks()">Plot Tracks</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-googlemap></app-googlemap>
