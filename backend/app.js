@@ -51,6 +51,8 @@ app.get("/", function (req, res, next) {
     });
 })
 
+
+
 app.post("/onSubmit",(req,res)=>{
     console.log("Request received");
     console.log(req.body);
@@ -87,6 +89,8 @@ app.post("/addTravelDetails",(req,res)=>{
     res.send(true);    
 })
 
+
+
 app.post("/getTravelData",(req,res)=>{
     sql = `SELECT * FROM Person_Details Natural JOIN Travel_Details
            WHERE (From_Time BETWEEN ? AND ?) OR 
@@ -109,6 +113,36 @@ app.post("/getTravelData",(req,res)=>{
         console.log(d.toLocaleString());    
         console.log(d.toLocaleDateString());    
         console.log(d.toString());
+
+        response.forEach((d)=>{
+            d.From_Time = new Date(d.From_Time).toLocaleString();
+            d.To_Time = new Date(d.To_Time).toLocaleString();
+        })
+        console.log(response);
+        res.send(response);
+    })    
+})
+
+
+app.get("/getAllTravelData",(req,res)=>{
+    sql = `SELECT * FROM Person_Details Natural JOIN Travel_Details`;
+
+    //console.log("[\n"+req.body.startdate+"\n]")
+
+    con.query(sql,(err,response)=>{
+        if(err) {
+            console.log(err)
+            console.log("Error");
+            res.send(false);
+        }
+        //console.log(sql);
+        console.log(response);
+        console.log(response[0]);
+        var cur = response[0];
+        var d = new Date(cur.From_Time);
+        // console.log(d.toLocaleString());    
+        // console.log(d.toLocaleDateString());    
+        // console.log(d.toString());
 
         response.forEach((d)=>{
             d.From_Time = new Date(d.From_Time).toLocaleString();
