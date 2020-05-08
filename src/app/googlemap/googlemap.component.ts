@@ -32,6 +32,16 @@ export class GooglemapComponent implements OnInit {
 
 });
 
+  
+
   }
+
+  initialize(){
+
+    
+
+
+  }
+
 
 }
