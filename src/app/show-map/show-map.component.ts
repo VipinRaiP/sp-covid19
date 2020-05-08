@@ -3,6 +3,7 @@ import { DateTimePickerModule } from '@progress/kendo-angular-dateinputs';
 import { AppComponent } from '../app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MapService } from '../services/maps.service';
 
 // @NgModule({
 //   bootstrap: [AppComponent],
@@ -21,7 +22,7 @@ export class ShowMapComponent implements OnInit {
   public toDate: Date = new Date(2020, 6, 1, 22);
 
 
-  constructor() { }
+  constructor(public mapService:MapService) { }
 
   ngOnInit() {
   }
@@ -31,10 +32,19 @@ export class ShowMapComponent implements OnInit {
 
     console.log(this.fromDate);
     console.log(this.toDate);
+
+    let data  = {
+      startdate : this.fromDate,
+      enddate : this.toDate
+    }
+
+    this.mapService.searchService.emit(data);
+
   }
 
   plotTracks(){
     console.log("plotTracks");
+    this.mapService.plotTracksService.emit();
   }
 
 

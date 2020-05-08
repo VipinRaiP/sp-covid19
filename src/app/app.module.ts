@@ -7,6 +7,8 @@ import { ShowMapComponent } from './show-map/show-map.component';
 import { GooglemapComponent } from './googlemap/googlemap.component';
 import {  DateTimePickerModule } from '@progress/kendo-angular-dateinputs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { MapService } from './services/maps.service';
 
 
 
@@ -20,9 +22,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     AppRoutingModule,
     DateTimePickerModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [MapService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
