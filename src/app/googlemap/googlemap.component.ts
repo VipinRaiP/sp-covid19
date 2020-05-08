@@ -74,6 +74,7 @@ export class GooglemapComponent implements OnInit {
       var p = data[i];
       var marker = new google.maps.Marker({
         position: { lat: p.Latitude, lng: p.Longitude },
+        animation: google.maps.Animation.DROP,
         //map: this.map,
         icon: {
           url: "https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle.png",
