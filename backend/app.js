@@ -51,8 +51,6 @@ app.get("/", function (req, res, next) {
     });
 })
 
-
-
 app.post("/onSubmit",(req,res)=>{
     console.log("Request received");
     console.log(req.body);
