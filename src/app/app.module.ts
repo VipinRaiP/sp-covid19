@@ -9,6 +9,7 @@ import {  DateTimePickerModule } from '@progress/kendo-angular-dateinputs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MapService } from './services/maps.service';
+import { AddPersonComponent } from './add-person/add-person.component';
 
 
 
@@ -16,7 +17,8 @@ import { MapService } from './services/maps.service';
   declarations: [
     AppComponent,
     ShowMapComponent,
-    GooglemapComponent
+    GooglemapComponent,
+    AddPersonComponent
   ],
   imports: [
     BrowserModule,
