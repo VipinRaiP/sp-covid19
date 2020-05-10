@@ -6,12 +6,13 @@ RUN apt install curl -y
 # RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt install nodejs -y
 RUN apt install npm -y
-#RUN npm install forever
+RUN npm -g install forever deep-equal@1.1.1
 RUN apt-get install -y apache2
 RUN mkdir -p /var/lock/apache2
 RUN mkdir -p /var/run/apache2
 RUN mkdir /usr/backend
 COPY backend /usr/backend
+
 
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
@@ -25,6 +26,8 @@ COPY dist/sp-covid19 /var/www/html
  
 WORKDIR /usr/backend
 
-CMD ["node","server.js","&"]
+#CMD ["node","server.js","2",">&1" ,">>" , "/var/log/ng.log", "&"]
+CMD ["forever" ,"start" ,"server.js"] 
 CMD ["/usr/sbin/apache2","-D","FOREGROUND"]
 EXPOSE 80
+EXPOSE 3000
