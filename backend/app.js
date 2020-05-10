@@ -104,19 +104,21 @@ app.post("/getTravelData",(req,res)=>{
             res.send(false);
         }
         //console.log(sql);
-        console.log(response);
-        console.log(response[0]);
-        var cur = response[0];
-        var d = new Date(cur.From_Time);
-        console.log(d.toLocaleString());    
-        console.log(d.toLocaleDateString());    
-        console.log(d.toString());
+        if(response.length>0){
+            console.log(response);
+            console.log(response[0]);
+            var cur = response[0];
+            var d = new Date(cur.From_Time);
+            console.log(d.toLocaleString());    
+            console.log(d.toLocaleDateString());    
+            console.log(d.toString());
 
-        response.forEach((d)=>{
-            d.From_Time = new Date(d.From_Time).toLocaleString();
-            d.To_Time = new Date(d.To_Time).toLocaleString();
-        })
-        console.log(response);
+            response.forEach((d)=>{
+                d.From_Time = new Date(d.From_Time).toLocaleString();
+                d.To_Time = new Date(d.To_Time).toLocaleString();
+            })
+            console.log(response);
+        }    
         res.send(response);
     })    
 })

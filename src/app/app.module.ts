@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MapService } from './services/maps.service';
 import { AddPersonComponent } from './add-person/add-person.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 
@@ -25,7 +26,9 @@ import { AddPersonComponent } from './add-person/add-person.component';
     AppRoutingModule,
     DateTimePickerModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [MapService],
   bootstrap: [AppComponent]
