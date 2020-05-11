@@ -26,7 +26,7 @@ COPY dist/sp-covid19 /var/www/html
  
 WORKDIR /usr/backend
 
-
+RUN npm i
 RUN chmod 777 script.sh
 CMD ./script.sh
 EXPOSE 80
