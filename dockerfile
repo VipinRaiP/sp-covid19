@@ -26,8 +26,8 @@ COPY dist/sp-covid19 /var/www/html
  
 WORKDIR /usr/backend
 
-#CMD ["node","server.js","2",">&1" ,">>" , "/var/log/ng.log", "&"]
-CMD ["forever" ,"start" ,"server.js"] 
-CMD ["/usr/sbin/apache2","-D","FOREGROUND"]
+
+RUN chmod 777 script.sh
+CMD ./script.sh
 EXPOSE 80
 EXPOSE 3000
