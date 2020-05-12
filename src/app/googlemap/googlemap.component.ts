@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { } from 'googlemaps';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from '../services/maps.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -41,8 +42,8 @@ export class GooglemapComponent implements OnInit {
   }
 
   initialize() {
-
-    this.http.get<any>("http://localhost:3000/getAllTravelData")
+    
+    this.http.get<any>(environment.backendIp+environment.backendPort+"/getAllTravelData")
       .subscribe(data => {
 
         //console.log(data);
@@ -53,7 +54,7 @@ export class GooglemapComponent implements OnInit {
 
   getSearchData(date) {
 
-    this.http.post<any>("http://localhost:3000/getTravelData", date)
+    this.http.post<any>(environment.backendIp+environment.backendPort+"/getTravelData", date)
       .subscribe(resData => {
         this.data = resData;
         this.plotPoints(resData);
