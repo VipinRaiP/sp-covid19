@@ -1,7 +1,8 @@
 <div class="container-fluid" style="padding-top: 50px;">
-    <!--input type="file" id="fileUploader" name="fileUploader" accept=".xls, .xlsx" />
+    <input type="file" id="fileUploader" name="fileUploader" accept=".xls, .xlsx" />
 
-    <button class="btn btn-success" type="button" onclick="importData()">Add Data</button-->
+    <button class="btn btn-success" type="button" (click)="onFileUpload()">Add Data</button>
+
     <form (ngSubmit)="onFormSubmit()" id="addPersonForm">
       <div class="form-row">
         <div class="col">
