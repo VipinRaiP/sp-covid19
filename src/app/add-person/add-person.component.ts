@@ -183,7 +183,7 @@ export class AddPersonComponent implements OnInit {
                      userData.Infected = XL_row_object[i]["Infected_0_1"];
                
                      console.log(userData);
-                      //this.addPersonDetails(userData);
+                      this.addPersonDetails(userData);
                }
                else{
        
