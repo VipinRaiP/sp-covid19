@@ -45,9 +45,8 @@ export class GooglemapComponent implements OnInit {
     
     this.http.get<any>(environment.backendIp+environment.backendPort+"/getAllTravelData")
       .subscribe(data => {
-
-        //console.log(data);
         this.data = data;
+        this.data.sort(this.getSortOrderBy("From_Time"));
         this.plotPoints(data);
       });
   }
@@ -57,6 +56,7 @@ export class GooglemapComponent implements OnInit {
     this.http.post<any>(environment.backendIp+environment.backendPort+"/getTravelData", date)
       .subscribe(resData => {
         this.data = resData;
+        this.data.sort(this.getSortOrderBy("From_Time"));
         this.plotPoints(resData);
         if (this.tracksPlotted) {
           this.plotTracks();
@@ -126,11 +126,17 @@ export class GooglemapComponent implements OnInit {
     this.clearTracks();
     this.tracks.length = 0;
     //grouping data for line
+    console.log("DATA");
+    console.log(this.data);
+    console.log(new Date(this.data[0].To_Time).getTime());
     let group = this.data.reduce((r, a) => {
       r[a.PersonID] = [...r[a.PersonID] || [], { 'lat': a.Latitude, 'lng': a.Longitude }]
       return r;
     }, {});
 
+    var lineSymbol = {
+      path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+    };
 
     let keyArray = [...Object.keys(group)];
     console.log(keyArray);
@@ -138,11 +144,17 @@ export class GooglemapComponent implements OnInit {
     const colors = ['#FF0000', '#000000'];
 
     // drawing line along the points
+    console.log("GROUP");
+    console.log(group);
     for (var i = 0; i < Object.keys(group).length; i++) {  //hardcoded data
 
       var flightPath = new google.maps.Polyline({
         path: group[keyArray[i]],
         geodesic: true,
+        icons: [{
+          icon: lineSymbol,
+          offset: '100%'
+        }],
         strokeColor: colors[i - 1],
         strokeOpacity: 1.0,
         strokeWeight: 2
@@ -165,4 +177,18 @@ export class GooglemapComponent implements OnInit {
   clearTracks() {
     this.setTracks(null);
   }
+
+  // Comparator Function
+
+  getSortOrderBy(prop) {    
+    return function(a, b) {    
+        if (new Date(a[prop]).getTime() > new Date(b[prop]).getTime()) {    
+            return 1;    
+        } else if (new Date(a[prop]).getTime() < new Date(b[prop]).getTime()) {    
+            return -1;    
+        }    
+        return 0;    
+    }    
+  } 
+
 }
