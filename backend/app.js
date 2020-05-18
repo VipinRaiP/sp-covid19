@@ -29,6 +29,7 @@ app.use((req, res, next) => {
 var con = mysql.createConnection({
     //host: "localhost",
     host: "spe-devops.cmzkozignxdl.ap-south-1.rds.amazonaws.com",
+    //host: "covidregion2db.cmzkozignxdl.ap-south-1.rds.amazonaws.com",
     user: "root",
     //password: "root"
     password: "root1234"
@@ -128,7 +129,6 @@ app.post("/getTravelData",(req,res)=>{
 
 app.get("/getAllTravelData",(req,res)=>{
     sql = `SELECT * FROM Person_Details Natural JOIN Travel_Details`;
-
     //console.log("[\n"+req.body.startdate+"\n]")
 
     con.query(sql,(err,response)=>{

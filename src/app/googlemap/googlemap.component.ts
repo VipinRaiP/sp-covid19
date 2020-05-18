@@ -47,6 +47,8 @@ export class GooglemapComponent implements OnInit {
       .subscribe(data => {
         this.data = data;
         this.data.sort(this.getSortOrderBy("From_Time"));
+        console.log("ALL DATA: ")
+        console.log(this.data);
         this.plotPoints(data);
       });
   }
@@ -134,6 +136,11 @@ export class GooglemapComponent implements OnInit {
       return r;
     }, {});
 
+    let infected_group = this.data.reduce((r, a) => {
+      r[a.PersonID] = +a.Infected
+      return r;
+    }, {});
+
     var lineSymbol = {
       path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
     };
@@ -141,11 +148,13 @@ export class GooglemapComponent implements OnInit {
     let keyArray = [...Object.keys(group)];
     console.log(keyArray);
     //console.log(group.length());
-    const colors = ['#FF0000', '#000000'];
+    const colors = ['#000000','#FF0000'];
 
     // drawing line along the points
     console.log("GROUP");
     console.log(group);
+    console.log("Infected");
+    console.log(infected_group);
     for (var i = 0; i < Object.keys(group).length; i++) {  //hardcoded data
 
       var flightPath = new google.maps.Polyline({
@@ -155,7 +164,7 @@ export class GooglemapComponent implements OnInit {
           icon: lineSymbol,
           offset: '100%'
         }],
-        strokeColor: colors[i - 1],
+        strokeColor: colors[infected_group[keyArray[i]]],
         strokeOpacity: 1.0,
         strokeWeight: 2
       });
@@ -164,8 +173,6 @@ export class GooglemapComponent implements OnInit {
       //flightPath.setMap(this.map);
     }
     this.setTracks(this.map);
-
-
   }
 
   setTracks(map) {
