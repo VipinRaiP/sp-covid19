@@ -27,12 +27,12 @@ app.use((req, res, next) => {
 /* configure the database */
 
 var con = mysql.createConnection({
-    //host: "localhost",
-    host: "spe-devops.cmzkozignxdl.ap-south-1.rds.amazonaws.com",
+    host: "localhost",
+    //host: "spe-devops.cmzkozignxdl.ap-south-1.rds.amazonaws.com",
     //host: "covidregion2db.cmzkozignxdl.ap-south-1.rds.amazonaws.com",
     user: "root",
-    //password: "root"
-    password: "root1234"
+    password: "root"
+    //password: "root1234"
 });
   
 con.connect(function (err) {
@@ -62,7 +62,7 @@ app.post("/onSubmit",(req,res)=>{
 
 app.post('/addPersonDetails',(req,res)=>{
     console.log(req.body);
-    sql = "Insert Into Person_Details values(?,?,?,?,?)"
+    /*sql = "Insert Into Person_Details values(?,?,?,?,?)"
     con.query(sql,[req.body.PersonID,req.body.Address,req.body.City,req.body.State,req.body.Infected],(err,response)=>{
         if(err) {
             console.log(err)
@@ -70,14 +70,34 @@ app.post('/addPersonDetails',(req,res)=>{
         }    
 
         res.send(true);
-    })
+    })*/
+    try{
+        addPersonDetails(res,req.body);
+        res.send(true);
+    }
+    catch(e){
+        //do nothing
+    }    
 })
+
+app.post('/addAllPersonDetails',(req,res)=>{
+    console.log(req.body);
+
+    sql = "Insert Into Person_Details values(?,?,?,?,?)"
+    for(let i=0;i<personDetails.length;i++){
+        con.query(sql,[personDetails[i].PersonID,personDetails[i].Address,personDetails[i].City,personDetails[i].State,personDetails[i].Infected],(err,response)=>{
+             
+        })
+    }    
+    res.send(true);
+})
+
 
 app.post("/addTravelDetails",(req,res)=>{
     console.log(req.body);
     
     locationArray = req.body.LocationArray;
-    for(var i=0;i<locationArray.length;i++){
+    /*for(var i=0;i<locationArray.length;i++){
         var location = locationArray[i];
         sql = "Insert Into Travel_Details values(?,?,?,?,?,?,?)"
         con.query(sql,[location.PersonID,location.Location,location.Latitude,location.Longitude,location.FromTime,location.ToTime,location.Mode_of_Transportation],(err,response)=>{
@@ -87,10 +107,15 @@ app.post("/addTravelDetails",(req,res)=>{
             }    
         })
     }
-    res.send(true);    
+    res.send(true);*/
+    try{
+        addTravelDetails(res,locationArray);    
+        res.send(true);
+    }
+    catch(e){
+        // do nothing
+    }    
 })
-
-
 
 app.post("/getTravelData",(req,res)=>{
     sql = `SELECT * FROM Person_Details Natural JOIN Travel_Details
@@ -154,5 +179,77 @@ app.get("/getAllTravelData",(req,res)=>{
         res.send(response);
     })    
 })
+
+app.get("/getAllPersonDetails",(req,res)=>{
+    sql = "SELECT * from Person_Details";
+
+    con.query(sql,(err,response)=>{
+        if(err){
+            console.log(err);
+            res.send(false);
+        }
+        res.send(response);
+    })
+})
+
+app.get("/getAllTravelDetails",(req,res)=>{
+    sql = "SELECT * from Travel_Details";
+
+    con.query(sql,(err,response)=>{
+        if(err){
+            console.log(err);
+            res.send(false);
+        }
+        res.send(response);
+    })
+})
+
+app.post("/mergeRegionData",(req,res)=>{
+    var locationArray = req.body.TravelDetails;  
+    var personDetails = req.body.PersonDetails;
+
+    for(var i=0;i<personDetails.length;i++){
+        addPersonDetails(res,personDetails[i]);
+    }
+    addTravelDetails(res,locationArray);
+    res.send(true);
+})
+
+/* Methods */
+
+function addPersonDetails(res,personDetails){
+    sql = "Insert Into Person_Details values(?,?,?,?,?)"
+    con.query(sql,[personDetails.PersonID,personDetails.Address,personDetails.City,personDetails.State,personDetails.Infected],(err,response)=>{
+        if(err) {
+            console.log(err)
+            console.log("ERROR!!!");
+            try{
+                res.send(err)
+            }
+            catch(e){
+
+            }
+        }
+    })
+}
+
+function addTravelDetails(res,locationArray){
+    for(var i=0;i<locationArray.length;i++){
+        var location = locationArray[i];
+        sql = "Insert Into Travel_Details values(?,?,?,?,?,?,?)"
+        var ret = true;
+        con.query(sql,[location.PersonID,location.Location,location.Latitude,location.Longitude,location.FromTime,location.ToTime,location.Mode_of_Transportation],(err,response)=>{
+            if(err){
+                console.log(err)
+                try{
+                    res.send(err);
+                }
+                catch(e){
+
+                }
+            }    
+        })
+    }
+}
 
 module.exports = app;

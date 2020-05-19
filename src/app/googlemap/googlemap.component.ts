@@ -31,6 +31,28 @@ export class GooglemapComponent implements OnInit {
       this.getSearchData(data);
     });
 
+    this.mapService.mergeDataService.subscribe((data) => {
+
+      this.http.get<any>(environment.backendIp + environment.backendPort + "/getAllPersonDetails")
+        .subscribe((personDetails) => {
+          this.http.get<any>(environment.backendIp + environment.backendPort + "/getAllTravelDetails")
+            .subscribe((travelDetails) => {
+              this.http.post<any>(environment.backendIp + environment.backendPort + "/addAllPersonDetails", personDetails)
+                .subscribe((res) => {
+                  this.http.post<any>(environment.backendIp + environment.backendPort + "/addTravelDetails", travelDetails)
+                    .subscribe((res) => {
+                      if (res != true)
+                        alert("Error: Cannot merge to DB")
+                      else{
+                        console.log("MERGE DATA: Merge successful");
+                        this.getSearchData(data);
+                      }  
+                    })
+                })
+            })
+        })
+    })
+
     const mapProperties = {
       center: new google.maps.LatLng(20.5937, 78.9629),
       zoom: 5,
@@ -42,8 +64,8 @@ export class GooglemapComponent implements OnInit {
   }
 
   initialize() {
-    
-    this.http.get<any>(environment.backendIp+environment.backendPort+"/getAllTravelData")
+
+    this.http.get<any>(environment.backendIp + environment.backendPort + "/getAllTravelData")
       .subscribe(data => {
         this.data = data;
         this.data.sort(this.getSortOrderBy("From_Time"));
@@ -55,7 +77,7 @@ export class GooglemapComponent implements OnInit {
 
   getSearchData(date) {
 
-    this.http.post<any>(environment.backendIp+environment.backendPort+"/getTravelData", date)
+    this.http.post<any>(environment.backendIp + environment.backendPort + "/getTravelData", date)
       .subscribe(resData => {
         this.data = resData;
         this.data.sort(this.getSortOrderBy("From_Time"));
@@ -148,7 +170,7 @@ export class GooglemapComponent implements OnInit {
     let keyArray = [...Object.keys(group)];
     console.log(keyArray);
     //console.log(group.length());
-    const colors = ['#000000','#FF0000'];
+    const colors = ['#000000', '#FF0000'];
 
     // drawing line along the points
     console.log("GROUP");
@@ -187,15 +209,15 @@ export class GooglemapComponent implements OnInit {
 
   // Comparator Function
 
-  getSortOrderBy(prop) {    
-    return function(a, b) {    
-        if (new Date(a[prop]).getTime() > new Date(b[prop]).getTime()) {    
-            return 1;    
-        } else if (new Date(a[prop]).getTime() < new Date(b[prop]).getTime()) {    
-            return -1;    
-        }    
-        return 0;    
-    }    
-  } 
+  getSortOrderBy(prop) {
+    return function (a, b) {
+      if (new Date(a[prop]).getTime() > new Date(b[prop]).getTime()) {
+        return 1;
+      } else if (new Date(a[prop]).getTime() < new Date(b[prop]).getTime()) {
+        return -1;
+      }
+      return 0;
+    }
+  }
 
 }

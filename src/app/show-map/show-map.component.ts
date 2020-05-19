@@ -47,6 +47,15 @@ export class ShowMapComponent implements OnInit {
     this.mapService.plotTracksService.emit();
   }
 
+  mergeData(){
+    console.log("Merge Data");
+    let data  = {
+      startdate : this.fromDate,
+      enddate : this.toDate
+    }
+    this.mapService.mergeDataService.emit(data);
+  }
+
 
   
 }

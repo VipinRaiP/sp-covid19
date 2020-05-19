@@ -56,6 +56,67 @@ export class AddPersonComponent implements OnInit {
     console.log(userData);
 
     this.addPersonDetails(userData);
+    this.gatherTravelDetails();
+/*
+    var locationArray = [];
+
+    var locations = [];
+    var fromTime = [];
+    var toTime = [];
+    var modeOfTransport = [];
+
+    document.getElementsByName("location").forEach((d) => {
+      locations.push((<HTMLInputElement>d).value);
+    });
+
+    document.getElementsByName("mot").forEach((d) => {
+      modeOfTransport.push((<HTMLInputElement>d).value);
+    });
+
+    document.getElementsByName("from").forEach((d) => {
+      fromTime.push((<HTMLInputElement>d).value);
+    });
+
+    document.getElementsByName("to").forEach((d) => {
+      toTime.push((<HTMLInputElement>d).value);
+    });
+
+    locations = locations.slice(0, locations.length - 1);
+    fromTime = fromTime.slice(0, fromTime.length - 1);
+    toTime = toTime.slice(0, toTime.length - 1);
+    modeOfTransport = modeOfTransport.slice(0, modeOfTransport.length - 1);
+    console.log(locations);
+    console.log(fromTime);
+    console.log(toTime);
+    console.log(modeOfTransport);
+
+    locations.forEach((location, index) => {
+      console.log(index);
+      var noOfLocations = locations.length;
+      var PersonID = (<HTMLInputElement>document.getElementById("id")).value;
+      this.http.get<any>('https://maps.googleapis.com/maps/api/geocode/json?&key=AIzaSyC6XaqrE4rLEskBpcUihpdDw3kRaW70pj8&address=' + location + ' Karnataka')
+        .subscribe((response) => {
+
+          var locationData: any = {};
+          console.log(index);
+          locationData.PersonID = PersonID;
+          locationData.Latitude = response.results[0].geometry.location.lat;
+          locationData.Longitude = response.results[0].geometry.location.lng;
+          locationData.Address = response.results[0].formatted_address;
+          locationData.Location = locations[index];
+          locationData.FromTime = fromTime[index];
+          locationData.ToTime = toTime[index];
+          locationData.Mode_of_Transportation = modeOfTransport[index];
+          locationArray.push(locationData);
+          if (locationArray.length == noOfLocations) {
+            console.log(locationArray);
+            this.addTravelDetails(locationArray);
+          }
+      }); 
+    })*/
+  }
+
+  gatherTravelDetails(){
 
     var locationArray = [];
 
@@ -112,7 +173,7 @@ export class AddPersonComponent implements OnInit {
             this.addTravelDetails(locationArray);
           }
       });
-    })
+    });   
   }
 
   /* Add person details */
@@ -120,10 +181,13 @@ export class AddPersonComponent implements OnInit {
   addPersonDetails(postData) {
     this.http.post<any>(environment.backendIp + environment.backendPort + "/addPersonDetails", postData)
       .subscribe((res) => {
-        if (res != true)
-          alert(res.sqlMessage)
-        else
-          console.log("ADD PERSON : Person details added");
+        /*if (res != true){
+          console.log("ADD PERSON:"+ res); 
+          alert("Error: Cannot add to DB");
+        }  
+        else{
+          console.log("ADD PERSON : Person details added"); 
+        }*/  
       })
   }
 
@@ -136,9 +200,9 @@ export class AddPersonComponent implements OnInit {
     this.http.post<any>(environment.backendIp + environment.backendPort + "/addTravelDetails", postData)
       .subscribe((res) => {
         if (res != true)
-          alert(res.sqlMessage)
+          alert("Error: Cannot add to DB")
         else
-          console.log("ADD PERSON : Travel details added");
+          console.log("ADD TRAVEL : Travel details added");
       })
   }
 
