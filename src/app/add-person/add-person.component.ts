@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule ,FormGroup, Validators} from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
-
+import { CustomValidators } from 'ng4-validators';
 
 
 @Component({
@@ -34,8 +34,9 @@ export class AddPersonComponent implements OnInit {
       state: ['', Validators.required],
       location: ['', Validators.required],
       mot :['', Validators.required],
-      from :['', Validators.required],
-      to :['', Validators.required]
+      from :['', [Validators.required, CustomValidators.date]],
+      //to :['', Validators.required].
+      to: ['', [Validators.required, CustomValidators.date]],
    
   });
     
