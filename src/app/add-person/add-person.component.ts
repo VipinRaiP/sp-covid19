@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as $ from 'jquery';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule ,FormGroup, Validators} from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
+
 
 
 @Component({
@@ -13,6 +14,8 @@ import * as XLSX from 'xlsx';
 })
 export class AddPersonComponent implements OnInit {
 
+  registerForm: FormGroup;
+  submitted = false;
   //@ViewChild('name',{static:true} ) name: ElementRef;
   @ViewChild('id', { static: true }) id: ElementRef;
   @ViewChild('address', { static: true }) address: ElementRef;
@@ -20,9 +23,22 @@ export class AddPersonComponent implements OnInit {
   @ViewChild('state', { static: true }) state: ElementRef;
   @ViewChild('infected', { static: true }) infected: ElementRef;
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+
+    this.registerForm = this.formBuilder.group({
+      id: ['', Validators.required],
+      address: ['', Validators.required],
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+      location: ['', Validators.required],
+      mot :['', Validators.required],
+      from :['', Validators.required],
+      to :['', Validators.required]
+   
+  });
+    
 
     $(document).ready(function () {
 
@@ -36,10 +52,42 @@ export class AddPersonComponent implements OnInit {
         $(this).parents(".control-group").remove();
       });
 
+    
     });
+
+
+    
+
   }
+  get f() { return this.registerForm.controls; }
 
   onFormSubmit() {
+
+    this.submitted = true;
+
+        // stop here if form is invalid
+        if (this.registerForm.invalid) {
+          console.log("INVALID")
+          alert("Please Enter all fields");
+            return;
+        }
+
+      let empty=0;
+
+        document.getElementsByName("location").forEach((d) => {
+          if((<HTMLInputElement>d).value == "")
+          {
+            empty++;    
+          }
+          
+        });
+
+        if(empty>1)
+        {
+          alert("Please Enter all fields");
+          return;
+        }
+
     var userData = {
       PersonID: Number,
       Address: String,
@@ -55,8 +103,8 @@ export class AddPersonComponent implements OnInit {
     userData.Infected = (this.infected.nativeElement.checked);
     console.log(userData);
 
-    this.addPersonDetails(userData);
-    this.gatherTravelDetails();
+    // this.addPersonDetails(userData);
+    // this.gatherTravelDetails();
 /*
     var locationArray = [];
 

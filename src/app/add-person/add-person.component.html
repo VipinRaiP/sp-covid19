@@ -2,13 +2,13 @@
     <input type="file" id="fileUploader" name="fileUploader" accept=".xls, .xlsx" />
 
     <button class="btn btn-success" type="button" (click)="onFileUpload()">Add Data</button>
-
-    <form (ngSubmit)="onFormSubmit()" id="addPersonForm" class="was-validated">
+   
+    <form  (ngSubmit)="onFormSubmit()" id="addPersonForm" [formGroup]="registerForm">
       <div class="form-row">
         <div class="col">
           <div class="form-group">
             <label for="id">ID:</label>
-            <input #id type="text" class="form-control" id="id" placeholder="Enter ID" name="id" required>
+            <input #id type="text" formControlName="id" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.id.errors }" id="id" placeholder="Enter ID" name="id">
             <div class="valid-feedback">Valid.</div>
             <div class="invalid-feedback">Please fill out this field.</div>
           </div>
@@ -18,7 +18,7 @@
         <div class="col">
           <div class="form-group">
             <label for="address">Address:</label>
-            <input #address type="text" class="form-control" id="address" placeholder="Enter Address" name="address" required>
+            <input #address type="text" formControlName="address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address.errors }" id="address" placeholder="Enter Address" name="address">
             <div class="invalid-feedback">Please fill out this field.</div>
 
           </div>
@@ -28,7 +28,7 @@
         <div class="col">
           <div class="form-group">
             <label for="city">City:</label>
-            <input #city type="text" class="form-control" id="city" placeholder="Enter City" name="city" required>
+            <input #city type="text" formControlName="city" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.city.errors }" id="city" placeholder="Enter City" name="city" >
             <div class="invalid-feedback">Please fill out this field.</div>
 
           </div>
@@ -38,7 +38,7 @@
         <div class="col">
           <div class="form-group">
             <label for="state">State :</label>
-            <input #state type="text" class="form-control" id="state" placeholder="Enter State" name="state" required>
+            <input #state type="text" formControlName="state" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.state.errors }" id="state" placeholder="Enter State" name="state">
             <div class="invalid-feedback">Please fill out this field.</div>
 
           </div>
@@ -54,19 +54,22 @@
           </div>
         </div>
       </div>
+
       <div class="form-row after-add-more">
         <div class="col">
           <div class="form-group">
             <label for="location">Location:</label>
-            <input type="text" class="form-control" id="location" placeholder="Enter Location" name="location" required>
-            <div class="invalid-feedback">Please fill out this field.</div>
-
+            <input type="text" formControlName="location" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.location.errors }" id="location" placeholder="Enter Location" name="location" required>
+            <div class="invalid-feedback">Location is required.</div>
+            <!-- <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
+              <div *ngIf="f.location.errors.required">Location is required</div>
+              </div> -->
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label for="mot">Mode of transport:</label>
-            <input type="text" class="form-control" id="mot" placeholder="Mode of transport" name="mot" required>
+            <input type="text" formControlName="mot" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mot.errors }" id="mot" placeholder="Mode of transport" name="mot" required>
             <div class="invalid-feedback">Please fill out this field.</div>
 
           </div>
@@ -75,7 +78,7 @@
           <div class="form-group">
             <label for="from">From:</label>
             <!--input type="text" class="form-control" id="from" placeholder="From" name="from"-->
-            <input class="form-control" autocomplete="off" type="datetime-local"  id="from" name="from" required>
+            <input formControlName="from" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.from.errors }" autocomplete="off" type="datetime-local"  id="from" name="from" required>
             <div class="invalid-feedback">Please fill out this field.</div>
 
           </div>
@@ -85,7 +88,7 @@
           <div class="form-group">
             <label for="to">To:</label>
             <!--input type="text" class="form-control" id="to" placeholder="To" name="to"-->
-            <input class="form-control" autocomplete="off" type="datetime-local"  id="to" name="to" required>
+            <input formControlName="to" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.to.errors }" autocomplete="off" type="datetime-local"  id="to" name="to" required>
             <div class="invalid-feedback">Please fill out this field.</div>
 
           </div>
@@ -99,18 +102,19 @@
           </div>
         </div>
       </div>
-
+   
       <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
     </form>
     <!-- Copy Fields -->
     <div class="copy d-none">
-      <div class="control-group form-row">
+  
+      <div class="control-group form-row was-validated">
         <div class="col">
           <div class="form-group">
             <label for="location">Location:</label>
             <input type="text" class="form-control" id="location" placeholder="Enter Location" name="location" required>
             <div class="invalid-feedback">Please fill out this field.</div>
-
+            
           </div>
         </div>
         <div class="col">
@@ -144,7 +148,9 @@
             <button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-remove"></i>
               Remove</button>
           </div>
-        </div>
+       
       </div>
     </div>
+</div>
+
   </div>
