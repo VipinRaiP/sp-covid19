@@ -52,16 +52,16 @@ pipeline {
     }
     stage('Execute Rundeck job') {
         steps {
-        //   script {
-        //     // step([$class: "RundeckNotifier",
-        //     //       includeRundeckLogs: true,
-        //     //       jobId: "a98fed62-3d7e-4668-9c5d-3a30bd9ec9ae",
-        //     //       rundeckInstance: "rundeck-awsEC2",
-        //     //       shouldFailTheBuild: true,
-        //     //       shouldWaitForRundeckJob: true,
-        //     //       tailLog: true])
-        //   }
-        echo "Rundeck here"
+          script {
+              step([$class: "RundeckNotifier",
+                    includeRundeckLogs: true,
+                    jobId: "a98fed62-3d7e-4668-9c5d-3a30bd9ec9ae",
+                    rundeckInstance: "rundeck-awsEC2",
+                    shouldFailTheBuild: true,
+                    shouldWaitForRundeckJob: true,
+                    tailLog: true])
+           }
+           echo "Rundeck here"
         }
     }
   }
