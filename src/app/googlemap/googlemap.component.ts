@@ -32,23 +32,17 @@ export class GooglemapComponent implements OnInit {
     });
 
     this.mapService.mergeDataService.subscribe((data) => {
-
-      this.http.get<any>(environment.backendIp + environment.backendPort + "/getAllPersonDetails")
-        .subscribe((personDetails) => {
-          this.http.get<any>(environment.backendIp + environment.backendPort + "/getAllTravelDetails")
-            .subscribe((travelDetails) => {
-              this.http.post<any>(environment.backendIp + environment.backendPort + "/addAllPersonDetails", personDetails)
-                .subscribe((res) => {
-                  this.http.post<any>(environment.backendIp + environment.backendPort + "/addTravelDetails", travelDetails)
-                    .subscribe((res) => {
-                      if (res != true)
-                        alert("Error: Cannot merge to DB")
-                      else{
-                        console.log("MERGE DATA: Merge successful");
-                        this.getSearchData(data);
-                      }  
-                    })
-                })
+      console.log("MAPS: Merge data request recieved")
+      let personDetails;
+      let travelDetails;
+      let request = data;
+      this.http.get<any>("http://"+request.ipAddress + ":3000" + "/getAllPersonDetails")
+        .subscribe((data) => {
+          personDetails = data;
+          this.http.get<any>("http://"+request.ipAddress + ":3000" + "/getAllTravelDetails")
+            .subscribe((data) => {
+              travelDetails = data;
+              this.addNewRegionData(personDetails, travelDetails, request);
             })
         })
     })
@@ -76,7 +70,6 @@ export class GooglemapComponent implements OnInit {
   }
 
   getSearchData(date) {
-
     this.http.post<any>(environment.backendIp + environment.backendPort + "/getTravelData", date)
       .subscribe(resData => {
         this.data = resData;
@@ -86,8 +79,6 @@ export class GooglemapComponent implements OnInit {
           this.plotTracks();
         }
       });
-
-
   }
 
   plotPoints(data) {
@@ -220,4 +211,34 @@ export class GooglemapComponent implements OnInit {
     }
   }
 
+  addNewRegionData(personDetails, travelDetails, dateRange) {
+    console.log(personDetails);
+    console.log(travelDetails);
+    // remove Z from ISO String format before adding to DB
+    travelDetails.forEach(d => {
+      d.From_Time = d.From_Time.substring(0, d.From_Time.length - 1);
+      d.To_Time = d.To_Time.substring(0, d.To_Time.length - 1);
+    })
+    console.log("MAP: formatted data");
+    console.log(travelDetails);
+    this.http.post<any>(environment.backendIp + environment.backendPort + "/addAllPersonDetails", { PersonDetailsArray: personDetails })
+      .subscribe((res) => {
+        console.log("MERGE DATA ADD PERSON :")
+        console.log(res);
+        if (res != true)
+          alert("Error: Cannot merge to DB")
+        else {
+          this.http.post<any>(environment.backendIp + environment.backendPort + "/addTravelDetails", { LocationArray: travelDetails })
+            .subscribe((res) => {
+              console.log("MERGE DATA: Merge successful");
+              this.getSearchData({
+                startdate: dateRange.startdate,
+                enddate: dateRange.enddate
+              });
+            })
+        }
+      })
+  }
 }
+
+

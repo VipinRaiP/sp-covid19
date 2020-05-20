@@ -1,12 +1,12 @@
 //const app = express();
-const express  = require("express")
-const mysql  = require("mysql")
+const express = require("express")
+const mysql = require("mysql")
 const bodyParser = require("body-parser")
 
 const app = express();
 
 app.use(bodyParser.urlencoded({
-    extended:true
+    extended: true
 }));
 
 app.use(bodyParser.json())
@@ -14,12 +14,12 @@ app.use(bodyParser.json())
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
     );
     res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PATCH, DELETE, OPTIONS"
+        "Access-Control-Allow-Methods",
+        "GET, POST, PATCH, DELETE, OPTIONS"
     );
     next();
 });
@@ -27,229 +27,221 @@ app.use((req, res, next) => {
 /* configure the database */
 
 var con = mysql.createConnection({
-    //host: "localhost",
-    host: "spe-devops.cmzkozignxdl.ap-south-1.rds.amazonaws.com",
+    host: "localhost",
+    //host: "spe-devops.cmzkozignxdl.ap-south-1.rds.amazonaws.com",
     //host: "covidregion2db.cmzkozignxdl.ap-south-1.rds.amazonaws.com",
     user: "root",
-    //password: "root"
-    password: "root1234"
+    password: "root",
+    //password: "root1234"
+    multipleStatements:true
 });
-  
+
 con.connect(function (err) {
     if (err) console.log(err);
     console.log("connected");
 });
-  
+
 sql = "use CDB";
 con.query(sql, function (err, res) {
     if (err) console.log(err);
     console.log(res);
 });
 
-/* REST API */
+/* REST APIs */
 
 app.get("/", function (req, res, next) {
     res.json({
-      message: "Backend working"
+        message: "Backend working"
     });
 })
 
-app.post("/onSubmit",(req,res)=>{
-    console.log("Request received");
+app.post('/addPersonDetails', (req, res) => {
     console.log(req.body);
-    res.send("Success");
-})
 
-app.post('/addPersonDetails',(req,res)=>{
-    console.log(req.body);
-    /*sql = "Insert Into Person_Details values(?,?,?,?,?)"
-    con.query(sql,[req.body.PersonID,req.body.Address,req.body.City,req.body.State,req.body.Infected],(err,response)=>{
-        if(err) {
-            console.log(err)
-            res.send(err);
-        }    
-
-        res.send(true);
-    })*/
-    try{
-        addPersonDetails(res,req.body);
-        res.send(true);
+    try {
+        addPersonDetails(res, [req.body]);
     }
-    catch(e){
+    catch (e) {
         //do nothing
-    }    
+    }
 })
 
-app.post('/addAllPersonDetails',(req,res)=>{
+app.post('/addAllPersonDetails', (req, res) => {
     console.log(req.body);
 
-    sql = "Insert Into Person_Details values(?,?,?,?,?)"
-    for(let i=0;i<personDetails.length;i++){
-        con.query(sql,[personDetails[i].PersonID,personDetails[i].Address,personDetails[i].City,personDetails[i].State,personDetails[i].Infected],(err,response)=>{
-             
-        })
-    }    
-    res.send(true);
-})
-
-
-app.post("/addTravelDetails",(req,res)=>{
-    console.log(req.body);
-    
-    locationArray = req.body.LocationArray;
-    /*for(var i=0;i<locationArray.length;i++){
-        var location = locationArray[i];
-        sql = "Insert Into Travel_Details values(?,?,?,?,?,?,?)"
-        con.query(sql,[location.PersonID,location.Location,location.Latitude,location.Longitude,location.FromTime,location.ToTime,location.Mode_of_Transportation],(err,response)=>{
-            if(err){
-                console.log(err)
-                res.send(err);    
-            }    
-        })
+    try {
+        addPersonDetails(res, req.body.PersonDetailsArray);
     }
-    res.send(true);*/
-    try{
-        addTravelDetails(res,locationArray);    
-        res.send(true);
-    }
-    catch(e){
+    catch (e) {
         // do nothing
-    }    
+    }
+
 })
 
-app.post("/getTravelData",(req,res)=>{
+app.post("/addTravelDetails", (req, res) => {
+    console.log(req.body);
+
+    locationArray = req.body.LocationArray;
+    try {
+        addTravelDetails(res, locationArray);
+    }
+    catch (e) {
+        // do nothing
+    }
+})
+
+app.post("/getTravelData", (req, res) => {
     sql = `SELECT * FROM Person_Details Natural JOIN Travel_Details
            WHERE (From_Time BETWEEN ? AND ?) OR 
            (To_Time BETWEEN ? AND ?) OR
            (? BETWEEN From_Time AND To_Time)`;
 
-    //console.log("[\n"+req.body.startdate+"\n]")
-
-    con.query(sql,[req.body.startdate, req.body.enddate, req.body.startdate, req.body.enddate, req.body.startdate],(err,response)=>{
-        if(err) {
+    con.query(sql, [req.body.startdate, req.body.enddate, req.body.startdate, req.body.enddate, req.body.startdate], (err, response) => {
+        if (err) {
             console.log(err)
             console.log("Error");
             res.send(false);
         }
         //console.log(sql);
-        if(response.length>0){
-            console.log(response);
-            console.log(response[0]);
+        if (response.length > 0) {
             var cur = response[0];
             var d = new Date(cur.From_Time);
-            console.log(d.toLocaleString());    
-            console.log(d.toLocaleDateString());    
-            console.log(d.toString());
 
-            response.forEach((d)=>{
+            response.forEach((d) => {
                 d.From_Time = new Date(d.From_Time).toLocaleString();
                 d.To_Time = new Date(d.To_Time).toLocaleString();
             })
-            console.log(response);
-        }    
+            //console.log(response);
+        }
         res.send(response);
-    })    
+    })
 })
 
 
-app.get("/getAllTravelData",(req,res)=>{
+app.get("/getAllTravelData", (req, res) => {
     sql = `SELECT * FROM Person_Details Natural JOIN Travel_Details`;
-    //console.log("[\n"+req.body.startdate+"\n]")
 
-    con.query(sql,(err,response)=>{
-        if(err) {
+    con.query(sql, (err, response) => {
+        if (err) {
             console.log(err)
             console.log("Error");
             res.send(false);
         }
-        //console.log(sql);
-        console.log(response);
-        console.log(response[0]);
+
         var cur = response[0];
         var d = new Date(cur.From_Time);
-        // console.log(d.toLocaleString());    
-        // console.log(d.toLocaleDateString());    
-        // console.log(d.toString());
 
-        response.forEach((d)=>{
+        response.forEach((d) => {
+            d.From_Time = new Date(d.From_Time).toLocaleString();
+            d.To_Time = new Date(d.To_Time).toLocaleString();
+        })
+        //console.log(response);
+        res.send(response);
+    })
+})
+
+app.get("/getAllPersonDetails", (req, res) => {
+    sql = "SELECT * from Person_Details";
+
+    con.query(sql, (err, response) => {
+        if (err) {
+            console.log(err);
+            res.send(false);
+        }
+        res.send(response);
+    })
+})
+
+app.get("/getAllTravelDetails", (req, res) => {
+    sql = "SELECT * from Travel_Details";
+
+    con.query(sql, (err, response) => {
+        if (err) {
+            console.log(err);
+            res.send(false);
+        }
+        response.forEach(d=>{
             d.From_Time = new Date(d.From_Time).toLocaleString();
             d.To_Time = new Date(d.To_Time).toLocaleString();
         })
         console.log(response);
         res.send(response);
-    })    
-})
-
-app.get("/getAllPersonDetails",(req,res)=>{
-    sql = "SELECT * from Person_Details";
-
-    con.query(sql,(err,response)=>{
-        if(err){
-            console.log(err);
-            res.send(false);
-        }
-        res.send(response);
     })
 })
 
-app.get("/getAllTravelDetails",(req,res)=>{
-    sql = "SELECT * from Travel_Details";
-
-    con.query(sql,(err,response)=>{
-        if(err){
-            console.log(err);
-            res.send(false);
-        }
-        res.send(response);
-    })
-})
-
-app.post("/mergeRegionData",(req,res)=>{
-    var locationArray = req.body.TravelDetails;  
+app.post("/mergeRegionData", (req, res) => {
+    var locationArray = req.body.TravelDetails;
     var personDetails = req.body.PersonDetails;
 
-    for(var i=0;i<personDetails.length;i++){
-        addPersonDetails(res,personDetails[i]);
-    }
-    addTravelDetails(res,locationArray);
-    res.send(true);
+    addPersonDetails(res, personDetails)
+    addTravelDetails(res, locationArray);
 })
 
 /* Methods */
 
-function addPersonDetails(res,personDetails){
-    sql = "Insert Into Person_Details values(?,?,?,?,?)"
-    con.query(sql,[personDetails.PersonID,personDetails.Address,personDetails.City,personDetails.State,personDetails.Infected],(err,response)=>{
-        if(err) {
-            console.log(err)
-            console.log("ERROR!!!");
-            try{
-                res.send(err)
-            }
-            catch(e){
+function addPersonDetails(res, detailsArray) {
 
+    console.log("Array received");
+    console.log(detailsArray);
+    detailsArray.unshift(" ");
+    console.log(detailsArray);
+    sql = detailsArray.reduce((pv, cv, ci) => {
+        console.log("Add Person current value:");
+        console.log(pv);
+        return  pv + "Insert Into Person_Details values(" + cv.PersonID + ",'" + cv.Address + "','" +
+            cv.City + "','" + cv.State + "'," + cv.Infected + ");"
+    })
+
+    console.log("Person Details query:");
+    console.log(sql);
+
+    con.query(sql, (err, response) => {
+        if (err){
+            console.log(err);
+            try {
+                res.send(err)    
+            } catch (error) {
+            }
+        }    
+        else{
+            try {
+                res.send(true);
+            } catch (error) {
             }
         }
+            
     })
 }
 
-function addTravelDetails(res,locationArray){
-    for(var i=0;i<locationArray.length;i++){
-        var location = locationArray[i];
-        sql = "Insert Into Travel_Details values(?,?,?,?,?,?,?)"
-        var ret = true;
-        con.query(sql,[location.PersonID,location.Location,location.Latitude,location.Longitude,location.FromTime,location.ToTime,location.Mode_of_Transportation],(err,response)=>{
-            if(err){
-                console.log(err)
-                try{
-                    res.send(err);
-                }
-                catch(e){
+function addTravelDetails(res, locationArray) {
+    locationArray.unshift(" ");
+    console.log("Formatted")
+    console.log(locationArray);
+    sql = locationArray.reduce((pv, cv, ci) => {
+        console.log("Current value")
+        console.log(cv);
+        return pv + "Insert Into Travel_Details values(" + cv.PersonID + ",'" + cv.Location + "'," +
+            cv.Latitude + "," + cv.Longitude + ",'" + cv.From_Time + "','" + cv.To_Time + "','" + cv.Mode_of_Transportation + "');"
+    })
+    console.log("Travel Details query:")
+    console.log(sql)
 
-                }
-            }    
-        })
-    }
+    con.query(sql, (err, response) => {
+        if (err){
+            console.log(err);
+            try {
+                res.send(err)    
+            } catch (error) {
+            }
+        }    
+        else{
+            console.log("Success");
+            try {
+                res.send(true);    
+            } catch (error) {
+            }
+        }    
+    })    
 }
 
 module.exports = app;
