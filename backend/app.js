@@ -27,8 +27,8 @@ app.use((req, res, next) => {
 /* configure the database */
 
 var con = mysql.createConnection({
-    host: "localhost",
-    //host: "spe-devops.cmzkozignxdl.ap-south-1.rds.amazonaws.com",
+    //host: "localhost",
+    host: "spe-devops.cmzkozignxdl.ap-south-1.rds.amazonaws.com",
     //host: "covidregion2db.cmzkozignxdl.ap-south-1.rds.amazonaws.com",
     user: "root",
     password: "root",
