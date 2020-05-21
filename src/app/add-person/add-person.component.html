@@ -1,8 +1,40 @@
-<div class="container-fluid" style="padding-top: 50px;">
-    <input type="file" id="fileUploader" name="fileUploader" accept=".xls, .xlsx" />
 
-    <button class="btn btn-success" type="button" (click)="onFileUpload()">Add Data</button>
-   
+<div class="container-fluid" style="padding-top: 50px;">
+
+    <div class="border shadow-lg d-flex p-3 bg-light text-black justify-content-center rounded-lg">
+
+      
+      <div class="p-2">
+        <h2>Import Data Using Excel File</h2>
+        <br>
+
+        <div class="input-group">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="fileUploader" name="fileUploader" accept=".xls, .xlsx">
+            <label class="custom-file-label" for="fileUploader">Choose file</label>
+          </div>
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button" (click)="onFileUpload()" >Add Data</button>
+          </div>
+          </div>
+          <br>
+          <div  class="mx-auto text-secondary" style="width:100px">
+            <h2>OR</h2>
+            </div>
+          
+      </div>
+      
+  </div>
+
+<br>
+  <div class="border shadow-lg d-flex p-3 bg-light text-black justify-content-center rounded-lg">
+
+    <div class="p-2">
+      <div class="mx-auto" style="width:300px">
+    <h2>Add Data Manually</h2>
+    </div>
+        <br>
+
     <form  (ngSubmit)="onFormSubmit()" id="addPersonForm" [formGroup]="registerForm">
       <div class="form-row">
         <div class="col">
@@ -105,6 +137,8 @@
    
       <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
     </form>
+    </div>
+    </div>
     <!-- Copy Fields -->
     <div class="copy d-none">
   

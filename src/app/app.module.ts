@@ -11,7 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MapService } from './services/maps.service';
 import { AddPersonComponent } from './add-person/add-person.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
+import {MatCardModule} from '@angular/material/card';
 
 
 @NgModule({
@@ -28,7 +28,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule
   ],
   providers: [MapService],
   bootstrap: [AppComponent]

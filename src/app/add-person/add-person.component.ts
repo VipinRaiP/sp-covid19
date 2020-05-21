@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule ,FormGroup, Validators} from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
-
-
+import { CustomValidators } from 'ng4-validators';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-add-person',
@@ -34,8 +34,9 @@ export class AddPersonComponent implements OnInit {
       state: ['', Validators.required],
       location: ['', Validators.required],
       mot :['', Validators.required],
-      from :['', Validators.required],
-      to :['', Validators.required]
+      from :['', [Validators.required, CustomValidators.date]],
+      //to :['', Validators.required].
+      to: ['', [Validators.required, CustomValidators.date]],
    
   });
     
@@ -72,17 +73,41 @@ export class AddPersonComponent implements OnInit {
             return;
         }
 
-      let empty=0;
-
+      let emptylocation=0;
+      let emptymot = 0;
+      let emptyto =0 ;
+      let emptyfrom =0;
+      
         document.getElementsByName("location").forEach((d) => {
           if((<HTMLInputElement>d).value == "")
           {
-            empty++;    
+            emptylocation++;    
           }
           
         });
 
-        if(empty>1)
+        document.getElementsByName("mot").forEach((d) => {
+          if((<HTMLInputElement>d).value == "")
+          {
+            emptymot++;    
+          }
+        });
+    
+        document.getElementsByName("from").forEach((d) => {
+          if((<HTMLInputElement>d).value == "")
+          {
+            emptyfrom++;    
+          }
+        });
+    
+        document.getElementsByName("to").forEach((d) => {
+          if((<HTMLInputElement>d).value == "")
+          {
+            emptyto++;    
+          }
+        });
+
+        if(emptylocation>1 || emptyfrom>1 || emptyto >1 || emptymot>1)
         {
           alert("Please Enter all fields");
           return;
