@@ -5,7 +5,7 @@ import { FormBuilder, ReactiveFormsModule ,FormGroup, Validators} from '@angular
 import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
 import { CustomValidators } from 'ng4-validators';
-
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-add-person',
