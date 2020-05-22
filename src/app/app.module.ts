@@ -13,7 +13,6 @@ import { AddPersonComponent } from './add-person/add-person.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 
-
 @NgModule({
   declarations: [
     AppComponent,
