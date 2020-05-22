@@ -287,8 +287,8 @@ export class AddPersonComponent implements OnInit {
 
                    var travelData :any = {};
                    travelData.PersonID = XL_row_object[i]["Person_ID"];
-                   travelData.FromTime =fromDate;
-                   travelData.ToTime = toDate;
+                   travelData.From_Time =fromDate;
+                   travelData.To_Time = toDate;
                    travelData.Mode_of_Transportation = XL_row_object[i]["Mode_of_Transportation"];
                    travelData.Latitude = 1;
                    travelData.Longitude = 1;
@@ -322,8 +322,8 @@ export class AddPersonComponent implements OnInit {
               locationData.Longitude = response.results[0].geometry.location.lng;
               //locationData.Address = response.results[0].formatted_address;
               locationData.Location = travelDataArray[index].Location;
-              locationData.FromTime = travelDataArray[index].FromTime;
-              locationData.ToTime = travelDataArray[index].ToTime;
+              locationData.From_Time = travelDataArray[index].From_Time;
+              locationData.To_Time = travelDataArray[index].To_Time;
               locationData.Mode_of_Transportation = travelDataArray[index].Mode_of_Transportation
               locationArray.push(locationData);
               
