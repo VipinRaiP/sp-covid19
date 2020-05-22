@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import * as XLSX from 'xlsx';
 import { CustomValidators } from 'ng4-validators';
 import {MatCardModule} from '@angular/material/card';
+import { NGXLogger } from 'ngx-logger';
 
 @Component({
   selector: 'app-add-person',
@@ -23,10 +24,11 @@ export class AddPersonComponent implements OnInit {
   @ViewChild('state', { static: true }) state: ElementRef;
   @ViewChild('infected', { static: true }) infected: ElementRef;
   
-  constructor(private http: HttpClient,private formBuilder: FormBuilder) { }
+  constructor(private http: HttpClient,private formBuilder: FormBuilder,private logger: NGXLogger) { }
 
   ngOnInit() {
 
+    this.logger.info("Add Persons INIT");
     this.registerForm = this.formBuilder.group({
       id: ['', Validators.required],
       address: ['', Validators.required],
@@ -64,11 +66,13 @@ export class AddPersonComponent implements OnInit {
 
   onFormSubmit() {
 
+    this.logger.info("Form Submitted");
     this.submitted = true;
 
         // stop here if form is invalid
         if (this.registerForm.invalid) {
           console.log("INVALID")
+          this.logger.error("Incorrect Form Field");
           alert("Please Enter all fields");
             return;
         }
@@ -109,6 +113,7 @@ export class AddPersonComponent implements OnInit {
 
         if(emptylocation>1 || emptyfrom>1 || emptyto >1 || emptymot>1)
         {
+          this.logger.error("Incorrect Form Field");
           alert("Please Enter all fields");
           return;
         }

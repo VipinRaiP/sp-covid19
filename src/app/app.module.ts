@@ -12,7 +12,7 @@ import { MapService } from './services/maps.service';
 import { AddPersonComponent } from './add-person/add-person.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
-
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,13 @@ import {MatCardModule} from '@angular/material/card';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MatCardModule
+    MatCardModule,
+    LoggerModule.forRoot({
+      serverLoggingUrl: 'http://52.170.156.240:3323/',
+      level: NgxLoggerLevel.INFO,
+      serverLogLevel: NgxLoggerLevel.WARN,
+      disableConsoleLogging: false
+    })
   ],
   providers: [MapService],
   bootstrap: [AppComponent]
