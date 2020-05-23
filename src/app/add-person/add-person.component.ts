@@ -85,17 +85,6 @@ export class AddPersonComponent implements OnInit {
       return;
     }
 
-    this.userData.PersonID = this.id.nativeElement.value;
-    this.userData.Address = this.address.nativeElement.value;
-    this.userData.City = this.city.nativeElement.value;
-    this.userData.State = this.state.nativeElement.value;
-    this.userData.Infected = (this.infected.nativeElement.checked);
-    console.log("ADD PERSON : USer Data")
-    console.log(this.userData);
-
-    this.addPersonDetails(this.userData);
-
-
     let emptylocation = 0;
     let emptymot = 0;
     let emptyto = 0;
@@ -131,8 +120,19 @@ export class AddPersonComponent implements OnInit {
       alert("Please Enter all fields");
       return;
     }
-    
+
     this.logger.info("Form Fields are correct");
+
+    this.userData.PersonID = this.id.nativeElement.value;
+    this.userData.Address = this.address.nativeElement.value;
+    this.userData.City = this.city.nativeElement.value;
+    this.userData.State = this.state.nativeElement.value;
+    this.userData.Infected = (this.infected.nativeElement.checked);
+    console.log("ADD PERSON : USer Data")
+    console.log(this.userData);
+
+    this.addPersonDetails(this.userData);
+
   }
 
   gatherTravelDetails() {
