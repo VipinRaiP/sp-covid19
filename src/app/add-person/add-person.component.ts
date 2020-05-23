@@ -131,16 +131,8 @@ export class AddPersonComponent implements OnInit {
       alert("Please Enter all fields");
       return;
     }
-
-    /*var userData = {
-      PersonID: Number,
-      Address: String,
-      City: String,
-      State: String,
-      Infected: Boolean
-    } */
-
-
+    
+    this.logger.info("Form Fields are correct");
   }
 
   gatherTravelDetails() {

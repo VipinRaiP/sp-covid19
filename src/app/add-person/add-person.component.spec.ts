@@ -72,7 +72,7 @@ describe('AddPersonComponent', () => {
       Infected : true
     }
     
-    //* act]
+    //* act
     fixture.debugElement.query(By.css('#id')).nativeElement.value = userData.PersonID;
     fixture.debugElement.query(By.css('#address')).nativeElement.value = userData.Address;
     fixture.debugElement.query(By.css('#city')).nativeElement.value = userData.City;
