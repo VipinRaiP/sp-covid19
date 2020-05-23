@@ -3,6 +3,7 @@ import { } from 'googlemaps';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from '../services/maps.service';
 import { environment } from 'src/environments/environment';
+import { NGXLogger } from 'ngx-logger';
 
 
 @Component({
@@ -19,10 +20,11 @@ export class GooglemapComponent implements OnInit {
   @ViewChild('map', { static: true }) mapElement: any;
   public map: google.maps.Map;
 
-  constructor(protected http: HttpClient, public mapService: MapService) { }
+  constructor(protected http: HttpClient, public mapService: MapService,private logger: NGXLogger) { }
 
   ngOnInit() {
 
+    this.logger.info("Google Maps Component Initialized");
     this.mapService.plotTracksService.subscribe(() => {
       this.plotTracks();
     });
@@ -59,6 +61,7 @@ export class GooglemapComponent implements OnInit {
 
   initialize() {
 
+      this.logger.info("Initializing Map");
     this.http.get<any>(environment.backendIp + environment.backendPort + "/getAllTravelData")
       .subscribe(data => {
         this.data = data;
@@ -135,6 +138,7 @@ export class GooglemapComponent implements OnInit {
   }
 
   plotTracks() {
+    this.logger.info("Plotting Tracks");
     this.tracksPlotted = true;
 
 

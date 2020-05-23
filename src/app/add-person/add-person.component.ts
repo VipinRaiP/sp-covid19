@@ -28,7 +28,7 @@ export class AddPersonComponent implements OnInit {
 
   ngOnInit() {
 
-    this.logger.info("Add Persons INIT");
+    this.logger.info("Add Persons Component Initialised");
     this.registerForm = this.formBuilder.group({
       id: ['', Validators.required],
       address: ['', Validators.required],
@@ -118,6 +118,7 @@ export class AddPersonComponent implements OnInit {
           return;
         }
 
+        this.logger.info("Form Fields are correct");
     var userData = {
       PersonID: Number,
       Address: String,
@@ -202,10 +203,12 @@ export class AddPersonComponent implements OnInit {
     this.http.post<any>(environment.backendIp + environment.backendPort + "/addPersonDetails", postData)
       .subscribe((res) => {
         if (res != true){
+          this.logger.error("Error adding Data to Database");
           alert("Cannot add to Database");
         }  
         else{
           console.log("ADD PERSON : Person details added"); 
+          this.logger.info("Person detials added to Database");
           this.gatherTravelDetails();
         }  
       })
@@ -217,6 +220,7 @@ export class AddPersonComponent implements OnInit {
     let postData  = {
       LocationArray : travelData
     }
+    this.logger.info("Adding Travle Data to Database");
     this.http.post<any>(environment.backendIp + environment.backendPort + "/addTravelDetails", postData)
       .subscribe((res) => {
       })
@@ -224,6 +228,7 @@ export class AddPersonComponent implements OnInit {
 
   onFileUpload()
   {
+    this.logger.info("Uploading file to import Data");
     var sfile = document.querySelector('input').files[0];
     console.log(sfile);
      var reader = new FileReader();
@@ -336,7 +341,8 @@ export class AddPersonComponent implements OnInit {
       })
    
     };
-    reader.onerror = function(event) {
+    reader.onerror = (event) => {
+      this.logger.error("Error reading file");
       console.error("File could not be read! Code ");
     };
     reader.readAsBinaryString(sfile);

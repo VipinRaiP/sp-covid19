@@ -4,6 +4,7 @@ import { AppComponent } from '../app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MapService } from '../services/maps.service';
+import { NGXLogger } from 'ngx-logger';
 
 // @NgModule({
 //   bootstrap: [AppComponent],
@@ -22,9 +23,10 @@ export class ShowMapComponent implements OnInit {
   //public toDate: Date = new Date(2020, 6, 1, 22);
   public toDate: Date = new Date();
 
-  constructor(public mapService:MapService) { }
+  constructor(public mapService:MapService,private logger: NGXLogger) { }
 
   ngOnInit() {
+    this.logger.info("Show Map component Initialized");
   }
 
   getData(){
@@ -48,6 +50,8 @@ export class ShowMapComponent implements OnInit {
   }
 
   mergeData(){
+
+    this.logger.info("Merging APIs");
     console.log("Merge Data");
     let ipAddress = [];
     document.getElementsByName("region-ip").forEach((d) => {
