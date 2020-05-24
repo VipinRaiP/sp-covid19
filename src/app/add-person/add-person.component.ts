@@ -28,6 +28,8 @@ export class AddPersonComponent implements OnInit {
 
   public userData: any = {}; 
   public travelDataArray = [];
+  public testing  = false;
+  public ft = [];
 
   constructor(private http: HttpClient, private formBuilder: FormBuilder, private logger: NGXLogger,
               private addPersonService:AddPersonService) { }
@@ -42,7 +44,7 @@ export class AddPersonComponent implements OnInit {
       state: ['', Validators.required],
       location: ['', Validators.required],
       mot: ['', Validators.required],
-      from: ['', [Validators.required, CustomValidators.date]],
+      from: ['', [Validators.required,, CustomValidators.date]],
       //to :['', Validators.required].
       to: ['', [Validators.required, CustomValidators.date]],
 
@@ -83,7 +85,7 @@ export class AddPersonComponent implements OnInit {
     this.submitted = true;
     this.travelDataArray = [];
     // stop here if form is invalid
-    if (this.registerForm.invalid) {
+    if (!this.testing && this.registerForm.invalid) {
       console.log("INVALID")
       this.logger.error("Incorrect Form Field");
       alert("Please Enter all fields");
@@ -119,8 +121,8 @@ export class AddPersonComponent implements OnInit {
         emptyto++;
       }
     });
-
-    if (emptylocation > 1 || emptyfrom > 1 || emptyto > 1 || emptymot > 1) {
+   
+    if ((!this.testing) && (emptylocation > 1 || emptyfrom > 1 || emptyto > 1 || emptymot > 1)) {
       this.logger.error("Incorrect Form Field");
       alert("Please Enter all fields");
       return;
@@ -158,6 +160,8 @@ export class AddPersonComponent implements OnInit {
     document.getElementsByName("to").forEach((d) => {
       toTime.push((<HTMLInputElement>d).value);
     });
+
+    this.ft = fromTime;  
 
     locations = locations.slice(0, locations.length - 1);
     fromTime = fromTime.slice(0, fromTime.length - 1);

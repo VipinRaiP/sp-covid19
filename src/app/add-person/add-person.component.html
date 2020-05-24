@@ -91,7 +91,7 @@
         <div class="col">
           <div class="form-group">
             <label for="location">Location:</label>
-            <input type="text" formControlName="location" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.location.errors }" id="location" placeholder="Enter Location" name="location" required>
+            <input type="text" formControlName="location" class="form-control location" [ngClass]="{ 'is-invalid': submitted && f.location.errors }" id="location" placeholder="Enter Location" name="location" required>
             <div class="invalid-feedback">Location is required.</div>
             <!-- <div *ngIf="submitted && f.location.errors" class="invalid-feedback">
               <div *ngIf="f.location.errors.required">Location is required</div>
@@ -101,7 +101,7 @@
         <div class="col">
           <div class="form-group">
             <label for="mot">Mode of transport:</label>
-            <input type="text" formControlName="mot" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mot.errors }" id="mot" placeholder="Mode of transport" name="mot" required>
+            <input type="text" formControlName="mot" class="form-control mot" [ngClass]="{ 'is-invalid': submitted && f.mot.errors }" id="mot" placeholder="Mode of transport" name="mot" required>
             <div class="invalid-feedback">Please fill out this field.</div>
 
           </div>
@@ -110,7 +110,7 @@
           <div class="form-group">
             <label for="from">From:</label>
             <!--input type="text" class="form-control" id="from" placeholder="From" name="from"-->
-            <input formControlName="from" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.from.errors }" autocomplete="off" type="datetime-local"  id="from" name="from" required>
+            <input formControlName="from" class="form-control from" [ngClass]="{ 'is-invalid': submitted && f.from.errors }" autocomplete="off" type="datetime-local"  id="from" name="from" required>
             <div class="invalid-feedback">Please fill out this field.</div>
 
           </div>
@@ -120,7 +120,7 @@
           <div class="form-group">
             <label for="to">To:</label>
             <!--input type="text" class="form-control" id="to" placeholder="To" name="to"-->
-            <input formControlName="to" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.to.errors }" autocomplete="off" type="datetime-local"  id="to" name="to" required>
+            <input formControlName="to" class="form-control to" [ngClass]="{ 'is-invalid': submitted && f.to.errors }" autocomplete="off" type="datetime-local"  id="to" name="to" required>
             <div class="invalid-feedback">Please fill out this field.</div>
 
           </div>
@@ -146,7 +146,7 @@
         <div class="col">
           <div class="form-group">
             <label for="location">Location:</label>
-            <input type="text" class="form-control" id="location" placeholder="Enter Location" name="location" required>
+            <input type="text location" class="form-control" id="location" placeholder="Enter Location" name="location" required>
             <div class="invalid-feedback">Please fill out this field.</div>
             
           </div>
@@ -154,7 +154,7 @@
         <div class="col">
           <div class="form-group">
             <label for="mot">Mode of transport:</label>
-            <input type="text" class="form-control" id="mot" placeholder="Mode of transport" name="mot" required> 
+            <input type="text mot" class="form-control" id="mot" placeholder="Mode of transport" name="mot" required> 
             <div class="invalid-feedback">Please fill out this field.</div>
 
           </div>
@@ -163,7 +163,7 @@
           <div class="form-group">
             <label for="from">From:</label>
             <!--input type="text" class="form-control" id="from" placeholder="From" name="from"-->
-            <input class="form-control" type="datetime-local" autocomplete="off" id="from" name="from" required>
+            <input class="form-control from" type="datetime-local" autocomplete="off" id="from" name="from" required>
             <div class="invalid-feedback">Please fill out this field.</div>
 
           </div>
@@ -172,7 +172,7 @@
           <div class="form-group">
             <label for="to">To:</label>
             <!--input type="text" class="form-control" id="to" placeholder="To" name="to"-->
-            <input class="form-control" type="datetime-local" autocomplete="off" id="to" name="to" required>
+            <input class="form-control to" type="datetime-local" autocomplete="off" id="to" name="to" required>
             <div class="invalid-feedback">Please fill out this field.</div>
 
           </div>
