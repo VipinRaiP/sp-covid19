@@ -31,7 +31,11 @@ var con = mysql.createConnection({
     host: "spe-devops.cmzkozignxdl.ap-south-1.rds.amazonaws.com",
     //host: "covidregion2db.cmzkozignxdl.ap-south-1.rds.amazonaws.com",
     user: "root",
+<<<<<<< HEAD
     //password: "root",
+=======
+    ///password: "root",
+>>>>>>> 862d97e1b79e83959c791d589ef88ddec83aea10
     password: "root1234",
     multipleStatements:true
 });

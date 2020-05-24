@@ -17,6 +17,7 @@ import { NGXLogger } from 'ngx-logger';
 })
 export class ShowMapComponent implements OnInit {
   // public value: Date = new Date(2020, 5, 1, 22);
+  //Shows map
   public format: string = 'dd/MM/yyyy HH:mm';
 
   public fromDate: Date = new Date(2020, 0, 1, 22);
