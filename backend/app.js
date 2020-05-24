@@ -90,6 +90,19 @@ app.post("/addTravelDetails", (req, res) => {
     }
 })
 
+app.post("/addTestingLabDetails", (req, res) => {
+    console.log(req.body);
+
+    locationArray = req.body.LocationArray;
+    try {
+        addTestingLabDetails(res, locationArray);
+    }
+    catch (e) {
+        // do nothing
+    }
+})
+
+
 app.post("/getTravelData", (req, res) => {
     sql = `SELECT * FROM Person_Details Natural JOIN Travel_Details
            WHERE (From_Time BETWEEN ? AND ?) OR 
@@ -142,6 +155,19 @@ app.get("/getAllTravelData", (req, res) => {
 
 app.get("/getAllPersonDetails", (req, res) => {
     sql = "SELECT * from Person_Details";
+
+    con.query(sql, (err, response) => {
+        if (err) {
+            console.log(err);
+            res.send(false);
+        }
+        res.send(response);
+    })
+})
+
+
+app.get("/getAllTestingLabData", (req, res) => {
+    sql = "SELECT * from TestingLab_Details";
 
     con.query(sql, (err, response) => {
         if (err) {
@@ -244,4 +270,37 @@ function addTravelDetails(res, locationArray) {
     })    
 }
 
+
+function addTestingLabDetails(res, locationArray){
+    locationArray.unshift(" ");
+    console.log("Formatted")
+    console.log(locationArray);
+    sql = locationArray.reduce((pv, cv, ci) => {
+        console.log("Current value")
+        console.log(cv);
+        return pv + "Insert Into TestingLab_Details values('" + cv.address + "'," + cv.Latitude + "," +
+            cv.Longitude + ",'" + cv.type + "','" + cv.name + "');"
+    })
+    console.log("Testing Lab Details query:")
+    //console.log(sql)
+
+
+    con.query(sql, (err, response) => {
+        if (err){
+            console.log(err);
+            try {
+                res.send(err)    
+            } catch (error) {
+            }
+        }    
+        else{
+            console.log("Success");
+            try {
+                res.send(true);    
+            } catch (error) {
+            }
+        }    
+    }) 
+
+}
 module.exports = app;

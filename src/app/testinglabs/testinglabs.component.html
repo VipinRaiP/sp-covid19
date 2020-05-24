@@ -1,0 +1,29 @@
+<div class="container-fluid" style="padding-top: 50px;">
+
+    <div class="border shadow-lg d-flex p-3 bg-light text-black justify-content-center rounded-lg">
+
+      
+      <div class="p-2">
+        <h2>Import Data of Testing Labs</h2>
+        <br>
+
+        <div class="input-group">
+          <div class="custom-file">
+
+            <input type="file" class="custom-file-input" id="labfile" name="labfile" accept=".xls, .xlsx">
+            <label class="custom-file-label" for="fileUploader">Choose file</label>
+          </div>
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button" (click)="onFileUploadlab()" >Add Data</button>
+          </div>
+          </div>
+          <br>
+        
+          
+      </div>
+      
+  </div>
+<br>
+  <div #TestLabmap class="TestLabgmap" ></div>
+
+  </div>

@@ -14,13 +14,15 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { AddPersonService } from './services/addPerson.service';
+import { TestinglabsComponent } from './testinglabs/testinglabs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShowMapComponent,
     GooglemapComponent,
-    AddPersonComponent
+    AddPersonComponent,
+    TestinglabsComponent
   ],
   imports: [
     BrowserModule,
