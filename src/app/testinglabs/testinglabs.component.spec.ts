@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TestinglabsComponent } from './testinglabs.component';
 
+/*
 describe('TestinglabsComponent', () => {
   let component: TestinglabsComponent;
   let fixture: ComponentFixture<TestinglabsComponent>;
@@ -23,3 +24,4 @@ describe('TestinglabsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+*/

@@ -16,6 +16,7 @@ import { MapService } from '../services/maps.service';
 import { } from 'googlemaps';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { AddPersonService } from '../services/addPerson.service';
+import { TestinglabsComponent } from '../testinglabs/testinglabs.component';
 
 
 describe('AddPersonComponent', () => {
@@ -30,7 +31,8 @@ describe('AddPersonComponent', () => {
         AppComponent,
         ShowMapComponent,
         GooglemapComponent,
-        AddPersonComponent
+        AddPersonComponent,
+        TestinglabsComponent
       ],
       imports: [
         BrowserModule,
