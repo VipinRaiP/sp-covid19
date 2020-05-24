@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  //backendIp :"http://13.233.9.170:",
-  backendIp: "http://localhost:",
+  backendIp :"http://13.233.9.170:",
+  //backendIp: "http://localhost:",
   backendPort: 3000
 };
 
