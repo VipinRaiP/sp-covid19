@@ -10,7 +10,8 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma'),
+      require('karma-phantomjs-launcher')
     ],
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
@@ -26,7 +27,7 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     //browsers: ['Chrome'],
-    customLaunchers: {
+    /*customLaunchers: {
       ChromeHeadless: {
         base: 'Chrome',
         flags: [
@@ -36,8 +37,9 @@ module.exports = function (config) {
           '--remote-debugging-port=9222',
         ]
       }
-    },
-    browsers: ['ChromeHeadless'],
+    },*/
+    //browsers: ['ChromeHeadless'],
+    browsers: ['PhantomJS'],
     singleRun: true,
     restartOnFileChange: true
   });

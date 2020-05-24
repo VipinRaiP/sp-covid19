@@ -5,7 +5,9 @@
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+    // Added because of phantom js error
+    "target": "es5"
   },
   "files": [
     "src/test.ts",
