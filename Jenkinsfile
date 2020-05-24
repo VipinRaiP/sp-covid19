@@ -16,6 +16,7 @@ pipeline {
     stage('Build Angular Project'){
         steps {
             sh 'npm i'
+            sh 'ng test'
             sh 'ng build'
             // sh 'cd backend'
           
