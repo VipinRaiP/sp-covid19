@@ -194,14 +194,8 @@ export class AddPersonComponent implements OnInit {
     
     this.travelDataArray.forEach((location, index) => {
       var noOfLocations = this.travelDataArray.length;
-<<<<<<< HEAD
-      
-      // //var PersonID = (<HTMLInputElement>document.getElementById("id")).value;
-      this.http.get<any>('https://maps.googleapis.com/maps/api/geocode/json?&key=AIzaSyC6XaqrE4rLEskBpcUihpdDw3kRaW70pj8&address=' + this.travelDataArray[index].location + ' Karnataka')
-=======
       //var PersonID = (<HTMLInputElement>document.getElementById("id")).value;
       this.http.get<any>('https://maps.googleapis.com/maps/api/geocode/json?&key=AIzaSyC6XaqrE4rLEskBpcUihpdDw3kRaW70pj8&address=' + this.travelDataArray[index].Location + ' Karnataka')
->>>>>>> 862d97e1b79e83959c791d589ef88ddec83aea10
         .subscribe((response) => {
 
           var locationData: any = {};
