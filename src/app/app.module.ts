@@ -13,6 +13,7 @@ import { AddPersonComponent } from './add-person/add-person.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
+import { AddPersonService } from './services/addPerson.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
       disableConsoleLogging: false
     })
   ],
-  providers: [MapService],
+  providers: [MapService, AddPersonService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

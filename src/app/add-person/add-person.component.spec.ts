@@ -15,6 +15,7 @@ import { AddPersonComponent } from './add-person.component';
 import { MapService } from '../services/maps.service';
 import { } from 'googlemaps';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
+import { AddPersonService } from '../services/addPerson.service';
 
 
 describe('AddPersonComponent', () => {
@@ -46,7 +47,7 @@ describe('AddPersonComponent', () => {
           disableConsoleLogging: false
         })
       ],
-      providers: [MapService],
+      providers: [MapService,AddPersonService],
     })
     .compileComponents();
   }));
@@ -62,6 +63,16 @@ describe('AddPersonComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should update submit variable', () => {
+    component.onFormSubmit();
+    expect(component.submitted).toEqual(true);
+  });
+
+  it('should invalidate form if fields left empty',()=>{
+    component.onFormSubmit();
+    expect(component.registerForm.invalid).toEqual(true);
+  })
+
   it('should match userData', () => {
     //* arrange
     const userData = {
@@ -71,18 +82,19 @@ describe('AddPersonComponent', () => {
       State: 'Karnataka',
       Infected : true
     }
+
     
     //* act
     fixture.debugElement.query(By.css('#id')).nativeElement.value = userData.PersonID;
     fixture.debugElement.query(By.css('#address')).nativeElement.value = userData.Address;
     fixture.debugElement.query(By.css('#city')).nativeElement.value = userData.City;
     fixture.debugElement.query(By.css('#state')).nativeElement.value = userData.State;
-    fixture.debugElement.query(By.css('#infected')).nativeElement.value = userData.Infected;
- 
+    fixture.debugElement.query(By.css('#infected')).nativeElement.checked = userData.Infected;
+    //fixture.detectChanges();
     component.onFormSubmit();
     // * assert
     expect(component.userData).toEqual(userData);
-  });
+  } );
 
 
 
