@@ -94,6 +94,8 @@ export class GooglemapComponent implements OnInit {
 
   plotPoints(data) {
     this.clearMarkers();
+    console.log("Plot Points");
+    console.log(data)
     this.markers.length = 0;
     //this.data = null;
     for (let i = 0; i < this.data.length; i++) {
@@ -228,8 +230,8 @@ export class GooglemapComponent implements OnInit {
     console.log(travelDetails);
     // remove Z from ISO String format before adding to DB
     travelDetails.forEach(d => {
-      d.From_Time = d.From_Time.substring(0, d.From_Time.length - 1);
-      d.To_Time = d.To_Time.substring(0, d.To_Time.length - 1);
+      d.From_Time = d.From_Time.substring(0, d.From_Time.length - 2);
+      d.To_Time = d.To_Time.substring(0, d.To_Time.length - 2);
     })
     console.log("MAP: formatted data");
     console.log(travelDetails);
@@ -247,10 +249,11 @@ export class GooglemapComponent implements OnInit {
             .subscribe((res) => {
               console.log("MERGE DATA: Merge successful");
               this.mapService.lock = false;
-              this.getSearchData({
-                startdate: dateRange.startdate,
-                enddate: dateRange.enddate
-              });
+              // this.getSearchData({
+              //   startdate: dateRange.startdate,
+              //   enddate: dateRange.enddate
+              // });
+              this.initialize();
               alert("Data added successfully");
             })
         }

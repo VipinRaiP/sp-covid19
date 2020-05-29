@@ -186,9 +186,14 @@ app.get("/getAllTravelDetails", (req, res) => {
             console.log(err);
             res.send(false);
         }
+        // response.forEach(d=>{
+        //     d.From_Time = new Date(d.From_Time).toLocaleString();
+        //     d.To_Time = new Date(d.To_Time).toLocaleString();
+        // })
+
         response.forEach(d=>{
-            d.From_Time = new Date(d.From_Time).toLocaleString();
-            d.To_Time = new Date(d.To_Time).toLocaleString();
+            d.From_Time = new Date(d.From_Time).toISOString().slice(0, 19).replace('T', ' ');
+            d.To_Time = new Date(d.To_Time).toISOString().slice(0, 19).replace('T', ' ');
         })
         console.log(response);
         res.send(response);
