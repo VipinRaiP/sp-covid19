@@ -16,11 +16,12 @@ export class GooglemapComponent implements OnInit {
   private data: any;
   public markers = [];
   public tracks = [];
+  public lock = false;
 
   @ViewChild('map', { static: true }) mapElement: any;
   public map: google.maps.Map;
 
-  constructor(protected http: HttpClient, public mapService: MapService,private logger: NGXLogger) { }
+  constructor(protected http: HttpClient, public mapService: MapService, private logger: NGXLogger) { }
 
   ngOnInit() {
 
@@ -35,18 +36,23 @@ export class GooglemapComponent implements OnInit {
 
     this.mapService.mergeDataService.subscribe((data) => {
       console.log("MAPS: Merge data request recieved")
+      console.log("LOCK :");
+      console.log(this.lock);
       let personDetails;
       let travelDetails;
       let request = data;
-      this.http.get<any>("http://"+request.ipAddress + ":3000" + "/getAllPersonDetails")
-        .subscribe((data) => {
-          personDetails = data;
-          this.http.get<any>("http://"+request.ipAddress + ":3000" + "/getAllTravelDetails")
-            .subscribe((data) => {
-              travelDetails = data;
-              this.addNewRegionData(personDetails, travelDetails, request);
-            })
-        })
+      if (!this.lock) {
+        this.lock = true;
+        this.http.get<any>("http://" + request.ipAddress + ":3000" + "/getAllPersonDetails")
+          .subscribe((data) => {
+            personDetails = data;
+            this.http.get<any>("http://" + request.ipAddress + ":3000" + "/getAllTravelDetails")
+              .subscribe((data) => {
+                travelDetails = data;
+                this.addNewRegionData(personDetails, travelDetails, request);  
+              })
+          })
+      }
     })
 
     const mapProperties = {
@@ -61,7 +67,7 @@ export class GooglemapComponent implements OnInit {
 
   initialize() {
 
-      this.logger.info("Initializing Map");
+    this.logger.info("Initializing Map");
     this.http.get<any>(environment.backendIp + environment.backendPort + "/getAllTravelData")
       .subscribe(data => {
         this.data = data;
@@ -235,11 +241,12 @@ export class GooglemapComponent implements OnInit {
           this.http.post<any>(environment.backendIp + environment.backendPort + "/addTravelDetails", { LocationArray: travelDetails })
             .subscribe((res) => {
               console.log("MERGE DATA: Merge successful");
-              alert("Data added successfully");
+              this.lock = false;
               this.getSearchData({
                 startdate: dateRange.startdate,
                 enddate: dateRange.enddate
               });
+              alert("Data added successfully");
             })
         }
       })

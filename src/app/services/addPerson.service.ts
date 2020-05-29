@@ -53,6 +53,7 @@ export class AddPersonService {
         console.log(postData);
         this.http.post<any>(environment.backendIp + environment.backendPort + "/addTravelDetails", postData)
             .subscribe((res) => {
+                alert("Data added successfully");
         })
     }
 

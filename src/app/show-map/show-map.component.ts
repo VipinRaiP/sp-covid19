@@ -52,7 +52,7 @@ export class ShowMapComponent implements OnInit {
 
   mergeData(){
 
-    this.logger.info("Merging APIs");
+    //this.logger.info("Merging APIs");
     console.log("Merge Data");
     let ipAddress = [];
     document.getElementsByName("region-ip").forEach((d) => {
