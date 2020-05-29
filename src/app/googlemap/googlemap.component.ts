@@ -37,12 +37,12 @@ export class GooglemapComponent implements OnInit {
     this.mapService.mergeDataService.subscribe((data) => {
       console.log("MAPS: Merge data request recieved")
       console.log("LOCK :");
-      console.log(this.lock);
+      console.log(this.mapService.lock);
       let personDetails;
       let travelDetails;
       let request = data;
-      if (!this.lock) {
-        this.lock = true;
+      if (!this.mapService.lock) {
+        this.mapService.lock = true;
         this.http.get<any>("http://" + request.ipAddress + ":3000" + "/getAllPersonDetails")
           .subscribe((data) => {
             personDetails = data;
@@ -79,6 +79,8 @@ export class GooglemapComponent implements OnInit {
   }
 
   getSearchData(date) {
+    console.log("GET SEARH DATA ");
+    console.log(date);  
     this.http.post<any>(environment.backendIp + environment.backendPort + "/getTravelData", date)
       .subscribe(resData => {
         this.data = resData;
@@ -235,13 +237,16 @@ export class GooglemapComponent implements OnInit {
       .subscribe((res) => {
         console.log("MERGE DATA ADD PERSON :")
         console.log(res);
-        if (res != true)
+        
+        if (res != true){
           alert("Error: Cannot merge to DB")
+          this.mapService.lock = false;
+        }  
         else {
           this.http.post<any>(environment.backendIp + environment.backendPort + "/addTravelDetails", { LocationArray: travelDetails })
             .subscribe((res) => {
               console.log("MERGE DATA: Merge successful");
-              this.lock = false;
+              this.mapService.lock = false;
               this.getSearchData({
                 startdate: dateRange.startdate,
                 enddate: dateRange.enddate

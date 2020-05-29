@@ -26,13 +26,13 @@ export class AddPersonComponent implements OnInit {
   @ViewChild('state', { static: true }) state: ElementRef;
   @ViewChild('infected', { static: true }) infected: ElementRef;
 
-  public userData: any = {}; 
+  public userData: any = {};
   public travelDataArray = [];
-  public testing  = false;
+  public testing = false;
   public ft = [];
 
   constructor(private http: HttpClient, private formBuilder: FormBuilder, private logger: NGXLogger,
-              private addPersonService:AddPersonService) { }
+    private addPersonService: AddPersonService) { }
 
   ngOnInit() {
 
@@ -44,7 +44,7 @@ export class AddPersonComponent implements OnInit {
       state: ['', Validators.required],
       location: ['', Validators.required],
       mot: ['', Validators.required],
-      from: ['', [Validators.required,, CustomValidators.date]],
+      from: ['', [Validators.required, , CustomValidators.date]],
       //to :['', Validators.required].
       to: ['', [Validators.required, CustomValidators.date]],
 
@@ -66,12 +66,18 @@ export class AddPersonComponent implements OnInit {
 
     });
 
-    this.addPersonService.onPersonAdded.subscribe((data)=>{
-      if(data==true){
-        this.gatherTravelDetails();
-      }
-      else{
-        alert("Cannot add to Database");
+    this.addPersonService.onPersonAdded.subscribe((data) => {
+      console.log("ON PERSON SERVICE")
+      console.log(this.addPersonService.lock)
+      if (!this.addPersonService.lock) {
+        this.addPersonService.lock = true;
+        if (data == true) {
+          this.gatherTravelDetails();
+        }
+        else {
+          this.addPersonService.lock = false;
+          alert("Cannot add to Database");
+        }
       }
     })
 
@@ -109,7 +115,7 @@ export class AddPersonComponent implements OnInit {
         emptymot++;
       }
     });
-    
+
     document.getElementsByName("from").forEach((d) => {
       if ((<HTMLInputElement>d).value == "") {
         emptyfrom++;
@@ -121,7 +127,7 @@ export class AddPersonComponent implements OnInit {
         emptyto++;
       }
     });
-   
+
     if ((!this.testing) && (emptylocation > 1 || emptyfrom > 1 || emptyto > 1 || emptymot > 1)) {
       this.logger.error("Incorrect Form Field");
       alert("Please Enter all fields");
@@ -139,12 +145,12 @@ export class AddPersonComponent implements OnInit {
     console.log(this.userData);
 
     /* Obtain travel details */
-  
+
     var locations = [];
     var modeOfTransport = [];
     var fromTime = [];
     var toTime = [];
-    
+
     document.getElementsByName("location").forEach((d) => {
       locations.push((<HTMLInputElement>d).value);
     });
@@ -161,7 +167,7 @@ export class AddPersonComponent implements OnInit {
       toTime.push((<HTMLInputElement>d).value);
     });
 
-    this.ft = fromTime;  
+    this.ft = fromTime;
 
     locations = locations.slice(0, locations.length - 1);
     fromTime = fromTime.slice(0, fromTime.length - 1);
@@ -174,7 +180,7 @@ export class AddPersonComponent implements OnInit {
     console.log(toTime);
     console.log(modeOfTransport);
 
-    for(let i=0;i<locations.length;i++){
+    for (let i = 0; i < locations.length; i++) {
       var travelData: any = {};
       travelData.PersonID = this.userData.PersonID;
       travelData.From_Time = fromTime[i];
@@ -191,7 +197,7 @@ export class AddPersonComponent implements OnInit {
 
   gatherTravelDetails() {
     var locationArray = [];
-    
+
     this.travelDataArray.forEach((location, index) => {
       var noOfLocations = this.travelDataArray.length;
       //var PersonID = (<HTMLInputElement>document.getElementById("id")).value;
@@ -229,19 +235,19 @@ export class AddPersonComponent implements OnInit {
       var workbook = XLSX.read(data, {
         type: 'binary'
       });
-      
-  
+
+
       workbook.SheetNames.forEach((sheetName) => {
 
         //var XL_row_object = <any>XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
         var XL_row_object = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
         //var json_object = JSON.stringify(XL_row_object);
-        
+
         for (var i = 0; i < XL_row_object.length; i++) {
 
           if (sheetName === "Person data") {
 
-            var userData:any  = {};
+            var userData: any = {};
 
             userData.PersonID = XL_row_object[i]["Person_ID"];
             userData.Address = XL_row_object[i]["Home_Street_address"];

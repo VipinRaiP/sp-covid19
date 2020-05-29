@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 export class AddPersonService {
 
     public onPersonAdded = new EventEmitter<any>();
+    public lock:boolean = false;
 
     constructor(private http: HttpClient) {
 
@@ -53,6 +54,7 @@ export class AddPersonService {
         console.log(postData);
         this.http.post<any>(environment.backendIp + environment.backendPort + "/addTravelDetails", postData)
             .subscribe((res) => {
+                this.lock = true;
                 alert("Data added successfully");
         })
     }
