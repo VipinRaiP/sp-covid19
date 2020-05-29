@@ -5,8 +5,9 @@
 
 export const environment = {
   production: false,
-  backendIp :"http://52.252.44.12:",
+  //backendIp :"http://52.252.44.12:",
   //backendIp: "http://localhost:",
+  backendIp: "http://15.206.185.233",
   backendPort: 3000
 };
 

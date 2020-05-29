@@ -235,6 +235,7 @@ export class GooglemapComponent implements OnInit {
           this.http.post<any>(environment.backendIp + environment.backendPort + "/addTravelDetails", { LocationArray: travelDetails })
             .subscribe((res) => {
               console.log("MERGE DATA: Merge successful");
+              alert("Data added successfully");
               this.getSearchData({
                 startdate: dateRange.startdate,
                 enddate: dateRange.enddate
