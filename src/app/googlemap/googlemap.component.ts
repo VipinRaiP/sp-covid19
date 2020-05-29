@@ -112,7 +112,7 @@ export class GooglemapComponent implements OnInit {
 
       });
 
-      var content = "<b>Name: </b> " + p.PersonName + "<br>" +
+      var content = "<b>ID: </b> " + p.PersonID + "<br>" +
         "<b>Location: </b>" + p.Location + "<br>" +
         "<b>From: </b>" + p.From_Time + "<br>" +
         "<b>To: </b>" + p.To_Time + "<br>" +
