@@ -79,11 +79,12 @@ export class GooglemapComponent implements OnInit {
   }
 
   getSearchData(date) {
-    console.log("GET SEARH DATA ");
+    console.log("GET SEARCH DATA ");
     console.log(date);  
     this.http.post<any>(environment.backendIp + environment.backendPort + "/getTravelData", date)
       .subscribe(resData => {
         this.data = resData;
+        console.log(resData);
         this.data.sort(this.getSortOrderBy("From_Time"));
         this.plotPoints(resData);
         if (this.tracksPlotted) {
@@ -112,7 +113,7 @@ export class GooglemapComponent implements OnInit {
 
       });
 
-      var content = "<b>Name: </b> " + p.PersonName + "<br>" +
+      var content = "<b>PersonID: </b> " + p.PersonID + "<br>" +
         "<b>Location: </b>" + p.Location + "<br>" +
         "<b>From: </b>" + p.From_Time + "<br>" +
         "<b>To: </b>" + p.To_Time + "<br>" +
