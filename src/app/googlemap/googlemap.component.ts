@@ -79,11 +79,12 @@ export class GooglemapComponent implements OnInit {
   }
 
   getSearchData(date) {
-    console.log("GET SEARH DATA ");
+    console.log("GET SEARCH DATA ");
     console.log(date);  
     this.http.post<any>(environment.backendIp + environment.backendPort + "/getTravelData", date)
       .subscribe(resData => {
         this.data = resData;
+        console.log(resData);
         this.data.sort(this.getSortOrderBy("From_Time"));
         this.plotPoints(resData);
         if (this.tracksPlotted) {
@@ -229,10 +230,10 @@ export class GooglemapComponent implements OnInit {
     console.log(personDetails);
     console.log(travelDetails);
     // remove Z from ISO String format before adding to DB
-    travelDetails.forEach(d => {
+    /*travelDetails.forEach(d => {
       d.From_Time = d.From_Time.substring(0, d.From_Time.length - 2);
       d.To_Time = d.To_Time.substring(0, d.To_Time.length - 2);
-    })
+    })*/
     console.log("MAP: formatted data");
     console.log(travelDetails);
     this.http.post<any>(environment.backendIp + environment.backendPort + "/addAllPersonDetails", { PersonDetailsArray: personDetails })
@@ -249,11 +250,11 @@ export class GooglemapComponent implements OnInit {
             .subscribe((res) => {
               console.log("MERGE DATA: Merge successful");
               this.mapService.lock = false;
-              // this.getSearchData({
-              //   startdate: dateRange.startdate,
-              //   enddate: dateRange.enddate
-              // });
-              this.initialize();
+               this.getSearchData({
+                 startdate: dateRange.startdate,
+                 enddate: dateRange.enddate
+               });
+              //this.initialize();
               alert("Data added successfully");
             })
         }
