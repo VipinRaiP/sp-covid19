@@ -55,6 +55,7 @@ export class ShowMapComponent implements OnInit {
     //this.logger.info("Merging APIs");
     console.log("Merge Data");
     let ipAddress = [];
+    this.mapService.lock = false;
     document.getElementsByName("region-ip").forEach((d) => {
       ipAddress.push((<HTMLInputElement>d).value);
     });

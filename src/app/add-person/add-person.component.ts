@@ -72,6 +72,7 @@ export class AddPersonComponent implements OnInit {
       if (!this.addPersonService.lock) {
         this.addPersonService.lock = true;
         if (data == true) {
+          console.log("GATHERING TRAVEL DETAILS");
           this.gatherTravelDetails();
         }
         else {
@@ -88,6 +89,7 @@ export class AddPersonComponent implements OnInit {
   onFormSubmit() {
 
     this.logger.info("Form Submitted");
+    this.addPersonService.lock = false;
     this.submitted = true;
     this.travelDataArray = [];
     // stop here if form is invalid
@@ -227,6 +229,7 @@ export class AddPersonComponent implements OnInit {
   onFileUpload() {
     var sfile = document.querySelector('input').files[0];
     console.log(sfile);
+    this.addPersonService.lock = false;
     var reader = new FileReader();
     var userDataArray = [];
     this.travelDataArray = [];

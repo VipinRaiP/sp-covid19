@@ -230,10 +230,10 @@ export class GooglemapComponent implements OnInit {
     console.log(personDetails);
     console.log(travelDetails);
     // remove Z from ISO String format before adding to DB
-    travelDetails.forEach(d => {
+    /*travelDetails.forEach(d => {
       d.From_Time = d.From_Time.substring(0, d.From_Time.length - 2);
       d.To_Time = d.To_Time.substring(0, d.To_Time.length - 2);
-    })
+    })*/
     console.log("MAP: formatted data");
     console.log(travelDetails);
     this.http.post<any>(environment.backendIp + environment.backendPort + "/addAllPersonDetails", { PersonDetailsArray: personDetails })

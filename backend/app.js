@@ -33,7 +33,7 @@ var con = mysql.createConnection({
     user: "root",
     ///password: "root",
     password: "root1234",
-    multipleStatements:true
+    multipleStatements: true
 });
 
 con.connect(function (err) {
@@ -117,8 +117,8 @@ app.post("/getTravelData", (req, res) => {
         }
         //console.log(sql);
         if (response.length > 0) {
-            var cur = response[0];
-            var d = new Date(cur.From_Time);
+            //var cur = response[0];
+            //var d = new Date(cur.From_Time);
 
             response.forEach((d) => {
                 d.From_Time = new Date(d.From_Time).toLocaleString();
@@ -140,14 +140,15 @@ app.get("/getAllTravelData", (req, res) => {
             console.log("Error");
             res.send(false);
         }
+        if (response.length > 0) {
+            //var cur = response[0];
+            //var d = new Date(cur.From_Time);
 
-        var cur = response[0];
-        var d = new Date(cur.From_Time);
-
-        response.forEach((d) => {
-            d.From_Time = new Date(d.From_Time).toLocaleString();
-            d.To_Time = new Date(d.To_Time).toLocaleString();
-        })
+            response.forEach((d) => {
+                d.From_Time = new Date(d.From_Time).toLocaleString();
+                d.To_Time = new Date(d.To_Time).toLocaleString();
+            })
+        }
         //console.log(response);
         res.send(response);
     })
@@ -186,15 +187,20 @@ app.get("/getAllTravelDetails", (req, res) => {
             console.log(err);
             res.send(false);
         }
-        // response.forEach(d=>{
-        //     d.From_Time = new Date(d.From_Time).toLocaleString();
-        //     d.To_Time = new Date(d.To_Time).toLocaleString();
-        // })
 
-        response.forEach(d=>{
+        response.forEach(d => {
+
+            d.From_Time = new Date(d.From_Time).toLocaleString() // .toISOString().substring(0,23);
+            d.To_Time = new Date(d.To_Time).toLocaleString()
+
+            //d.From_Time = new Date(d.From_Time).toISOString().slice(0,23);
+            //d.To_Time = new Date(d.To_Time).toISOString().slice(0,23);
+        })
+
+        /*response.forEach(d=>{
             d.From_Time = new Date(d.From_Time).toISOString().slice(0, 19).replace('T', ' ');
             d.To_Time = new Date(d.To_Time).toISOString().slice(0, 19).replace('T', ' ');
-        })
+        })*/
         console.log(response);
         res.send(response);
     })
@@ -219,7 +225,7 @@ function addPersonDetails(res, detailsArray) {
     sql = detailsArray.reduce((pv, cv, ci) => {
         console.log("Add Person current value:");
         console.log(pv);
-        return  pv + "Insert Into Person_Details values(" + cv.PersonID + ",'" + cv.Address + "','" +
+        return pv + "Insert Into Person_Details values(" + cv.PersonID + ",'" + cv.Address + "','" +
             cv.City + "','" + cv.State + "'," + cv.Infected + ");"
     })
 
@@ -227,24 +233,45 @@ function addPersonDetails(res, detailsArray) {
     console.log(sql);
 
     con.query(sql, (err, response) => {
-        if (err){
+        if (err) {
             console.log(err);
             try {
-                res.send(err)    
+                res.send(err)
             } catch (error) {
             }
-        }    
-        else{
+        }
+        else {
             try {
                 res.send(true);
             } catch (error) {
             }
         }
-            
+
     })
 }
 
 function addTravelDetails(res, locationArray) {
+    locationArray.forEach((d) => {
+        let fromTime = new Date(d.From_Time);
+        let toTime = new Date(d.To_Time);
+
+        d.From_Time = fromTime.getFullYear() + '-' +
+            ('00' + (fromTime.getMonth() + 1)).slice(-2) + '-' +
+            ('00' + fromTime.getDate()).slice(-2) + ' ' +
+            ('00' + fromTime.getHours()).slice(-2) + ':' +
+            ('00' + fromTime.getMinutes()).slice(-2) + ':' +
+            ('00' + fromTime.getSeconds()).slice(-2);
+
+        d.To_Time = toTime.getFullYear() + '-' +
+            ('00' + (toTime.getMonth() + 1)).slice(-2) + '-' +
+            ('00' + toTime.getDate()).slice(-2) + ' ' +
+            ('00' + toTime.getHours()).slice(-2) + ':' +
+            ('00' + toTime.getMinutes()).slice(-2) + ':' +
+            ('00' + toTime.getSeconds()).slice(-2);
+
+    })
+    console.log("ISO CONVERTED");
+    console.log(locationArray);
     locationArray.unshift(" ");
     console.log("Formatted")
     console.log(locationArray);
@@ -258,25 +285,25 @@ function addTravelDetails(res, locationArray) {
     console.log(sql)
 
     con.query(sql, (err, response) => {
-        if (err){
+        if (err) {
             console.log(err);
             try {
-                res.send(err)    
+                res.send(err)
             } catch (error) {
             }
-        }    
-        else{
+        }
+        else {
             console.log("Success");
             try {
-                res.send(true);    
+                res.send(true);
             } catch (error) {
             }
-        }    
-    })    
+        }
+    })
 }
 
 
-function addTestingLabDetails(res, locationArray){
+function addTestingLabDetails(res, locationArray) {
     locationArray.unshift(" ");
     console.log("Formatted")
     console.log(locationArray);
@@ -291,21 +318,21 @@ function addTestingLabDetails(res, locationArray){
 
 
     con.query(sql, (err, response) => {
-        if (err){
+        if (err) {
             console.log(err);
             try {
-                res.send(err)    
+                res.send(err)
             } catch (error) {
             }
-        }    
-        else{
+        }
+        else {
             console.log("Success");
             try {
-                res.send(true);    
+                res.send(true);
             } catch (error) {
             }
-        }    
-    }) 
+        }
+    })
 
 }
 module.exports = app;
