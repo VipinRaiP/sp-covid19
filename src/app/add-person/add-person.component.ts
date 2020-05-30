@@ -68,18 +68,22 @@ export class AddPersonComponent implements OnInit {
 
     this.addPersonService.onPersonAdded.subscribe((data) => {
       console.log("ON PERSON SERVICE")
-      console.log(this.addPersonService.lock)
-      if (!this.addPersonService.lock) {
+      //console.log(this.addPersonService.lock)
+      let count = 0;
+      //if (!this.addPersonService.lock) {
         this.addPersonService.lock = true;
         if (data == true) {
           console.log("GATHERING TRAVEL DETAILS");
           this.gatherTravelDetails();
         }
         else {
-          this.addPersonService.lock = false;
-          alert("Cannot add to Database");
+          if (count == 0) {
+            this.addPersonService.lock = false;
+            alert("Cannot add to Database");
+            count++;
+          }
         }
-      }
+      //}
     })
 
 

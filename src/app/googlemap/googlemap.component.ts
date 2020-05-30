@@ -250,11 +250,11 @@ export class GooglemapComponent implements OnInit {
             .subscribe((res) => {
               console.log("MERGE DATA: Merge successful");
               this.mapService.lock = false;
-              // this.getSearchData({
-              //   startdate: dateRange.startdate,
-              //   enddate: dateRange.enddate
-              // });
-              this.initialize();
+               this.getSearchData({
+                 startdate: dateRange.startdate,
+                 enddate: dateRange.enddate
+               });
+              //this.initialize();
               alert("Data added successfully");
             })
         }
