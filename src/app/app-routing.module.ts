@@ -9,11 +9,11 @@ const routes: Routes = [
   {path:"addPerson",component:AddPersonComponent},
   {path:"showMap",component:ShowMapComponent},
   {path:"testingLab",component:TestinglabsComponent},
-  {path:"**",redirectTo:" "}
+  {path:"**",redirectTo:"showMap"}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{onSameUrlNavigation: 'reload',anchorScrolling: 'enabled'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
