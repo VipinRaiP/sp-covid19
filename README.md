@@ -1,27 +1,24 @@
-# SpCovid19
+Patient Tracking System along with DevOps Toolchain
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.22.
 
-## Development server
+Languages and Technologies Used : ANGULAR, NODEJS, MYSQL, JAVASCRIPT
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+DevOps tools Used :
+– Source Code Management : Git
+– Continuous Integration : Jenkins
+– Container Platform : Docker
+– Continuous Deployment : Rundeck
+– Continuous Monitoring : ELK Stack
 
-## Code scaffolding
+• Services Used :
+– Amazon Elastic Compute Cloud (Amazon EC2)
+– Microsoft Azure
+– Amazon Relational Database System (Amazon RDS)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+• This project was part of curriculum for Software Production Engineering course at IIIT Bangalore.
+• A web application to track the movement of a patient based on his travel history along with DevOps toolchain.
+• DevOps tools were used to create a pipeline.
+• Travel history of a patient was entered in website and added to the database. It includes the from and to timestamps of a patient at a particular
+location.
+• Travel history is plotted on a google map by fetching the latitude and longitudes. Google map API were used for this purpose.
+• Option was provided to import the data from a csv file. Data can also be imported from a different region by using the corresponding REST API.
